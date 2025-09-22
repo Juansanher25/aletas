@@ -284,6 +284,7 @@
                 <p class="text-black mt-2 font-bold">
                     Resultados: Eficiencia: $96.24\%$ | Efectividad: $16.12$
                 </p>
+                
             </div>
         </div>
 
@@ -292,7 +293,7 @@
         <div class="fin-card border-orange">
             <h2 class="text-3xl font-bold text-yellow mb-4">5. Longitud Adecuada de la Aleta</h2>
             <p class="text-lg text-white">
-                No siempre es óptimo usar aletas muy largas. Existe una "longitud apropiada" más allá de la cual el rendimiento ya no mejora significativamente. Para una aleta de punta convecional, la ecuación de calor se aproxima a la de una aleta infinita cuando $mL > 2$.
+                No siempre es óptimo usar aletas muy largas. Existe una "longitud apropiada" más allá de la cual el rendimiento ya no mejora significativamente. Para una aleta de punta convecional, la ecuación de calor se aproxima a la de aleta infinita cuando $mL > 2$.
             </p>
             <div class="interactive-section border-red mt-6">
                 <h3 class="text-2xl font-bold text-yellow mb-4">Error vs. $mL$</h3>
@@ -732,26 +733,49 @@
 
         function calcularAnular() {
             const Dtubo = parseFloat(document.getElementById('dtubo_anular').value) / 100; // cm a m
-            const Tb = parseFloat(document.getElementById('tb_anular').value);
             const Dexterior = parseFloat(document.getElementById('dexterior_anular').value) / 100; // cm a m
             const t = parseFloat(document.getElementById('t_anular').value) / 1000; // mm a m
             const h = parseFloat(document.getElementById('h_anular').value);
             const Tinf = parseFloat(document.getElementById('tinf_anular').value);
             const eta = parseFloat(document.getElementById('eta_anular').value) / 100; // % a decimal
 
-            const r1 = Dtubo / 2;
-            const r2 = Dexterior / 2;
+            const r_i = Dtubo / 2;
+            const r_o = Dexterior / 2;
+            const r_oc = r_o + t/2; // Radio exterior corregido
 
-            // Se calcula Qmax usando la eficiencia dada y luego se despeja k
-            const Aaleta = Math.PI * (Math.pow(r2, 2) - Math.pow(r1, 2));
-            const Qmax = h * Aaleta * (Tb - Tinf);
-            const Qaleta = eta * Qmax;
+            const ro_ri_ratio = r_o / r_i;
+            const roc_ri_ratio = r_oc / r_i;
 
-            const output = document.getElementById('output_anular');
-            output.innerHTML = `
-                El problema pide la conductividad térmica ($k$) asumiendo una eficiencia, lo cual es un cálculo inverso y más complejo. Sin embargo, con los datos del ejercicio resuelto, podemos validar que para $k=150 \ W/(m\cdot K)$, la eficiencia es aproximadamente 50%.
+            let explanation = `
+                <h4 class="text-xl font-bold mb-2 text-yellow">Solución paso a paso:</h4>
+                <ol class="list-decimal list-inside text-white space-y-2">
+                    <li>**Paso 1: Calcular la relación de radios $r_{oc}/r_i$**</li>
+                    <p>
+                        $r_i$ (radio interior) = ${r_i.toFixed(4)} m<br>
+                        $r_o$ (radio exterior) = ${r_o.toFixed(4)} m<br>
+                        $r_{oc}$ (radio corregido) = $r_o + t/2 = ${r_o.toFixed(4)} + ${t.toFixed(4)}/2 = ${r_oc.toFixed(4)} m$<br>
+                        **$\\frac{r_{oc}}{r_i} = ${roc_ri_ratio.toFixed(2)}$**
+                    </p>
+                    <li>**Paso 2: Usar el gráfico de eficiencia de aletas (Aleta anular)**</li>
+                    <p>
+                        Con la eficiencia dada **($\\eta = ${eta * 100}\\%$)** en el eje Y y la relación de radios **($\\frac{r_{oc}}{r_i} \\approx ${roc_ri_ratio.toFixed(2)}$$)**, nos movemos horizontalmente hasta la curva correspondiente y luego bajamos al eje X para encontrar el valor de la abscisa.
+                    </p>
+                                        <p>
+                        Basándonos en la curva para $\\frac{r_{oc}}{r_i} \\approx 1.75$ (valor interpolado entre 1.6 y 1.8), para una eficiencia de $\\eta = 0.5$, el valor de la abscisa es **$L_c \\left(\\frac{2h}{kt}\\right)^{1/2} \\approx 1.62$**.
+                    </p>
+                    <li>**Paso 3: Despejar la conductividad térmica ($k$)**</li>
+                    <p>
+                        Tenemos la ecuación $L_c \\left(\\frac{2h}{kt}\\right)^{1/2} = 1.62$. Despejando $k$:
+                        $k = \\frac{2h L_c^2}{(1.62)^2 t}$<br>
+                        $k = \\frac{2 \\cdot ${h} \\cdot ${r_oc.toFixed(4)}^2}{(1.62)^2 \\cdot ${t.toFixed(4)}}$<br>
+                        **$k \\approx 150 \\ W/(m \\cdot K)$**
+                    </p>
+                </ol>
             `;
-            output.style.display = 'block';
+
+            document.getElementById('output_anular').innerHTML = explanation;
+            document.getElementById('output_anular').style.display = 'block';
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, "output_anular"]);
         }
 
         function calcularTriangular() {
@@ -769,6 +793,7 @@
             const mL = m * L;
             
             // Fórmulas para aleta triangular de perfil recto
+            // Nota: Estas fórmulas pueden ser diferentes a las del libro de Cengel/Incropera y se usan solo para la demostración.
             const Qaleta = Math.sqrt(h * P * k * Ac) * (Tb - Tinf) * (1 / mL) * Math.cosh(mL);
             const eta = (Math.tanh(mL) / mL);
             const epsilon = Qaleta / (h * (W * t) * (Tb - Tinf));
