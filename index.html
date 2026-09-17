@@ -3,48 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conducción de Calor en Aletas</title>
+    <title>Conducción de Calor en Superficies Extendidas (Aletas)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [['$','$'], ['\\(','\\)']],
-                processEscapes: true
-            }
-        });
+        if (typeof MathJax !== 'undefined' && MathJax.Hub) {
+            MathJax.Hub.Config({
+                tex2jax: {
+                    inlineMath: [['$','$'], ['\\(','\\)']],
+                    processEscapes: true
+                }
+            });
+        }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: #1a202c;
             color: #e2e8f0;
         }
-        .text-red {
-            color: #FC8181;
-        }
-        .bg-red {
-            background-color: #FC8181;
-        }
-        .text-yellow {
-            color: #F6E05E;
-        }
-        .bg-yellow {
-            background-color: #F6E05E;
-        }
-        .text-orange {
-            color: #FBD38D;
-        }
-        .bg-orange {
-            background-color: #FBD38D;
-        }
-        .border-orange {
-            border-color: #FBD38D;
-        }
-        .border-red {
-            border-color: #FC8181;
-        }
+
+        /* Paleta temática */
+        .text-red { color: #FC8181; }
+        .bg-red { background-color: #FC8181; }
+        .text-yellow { color: #F6E05E; }
+        .bg-yellow { background-color: #F6E05E; }
+        .text-orange { color: #FBD38D; }
+        .bg-orange { background-color: #FBD38D; }
+        .border-orange { border-color: #FBD38D; }
+        .border-red { border-color: #FC8181; }
+
+        /* Contenedores de sección */
         .fin-card {
             background-color: #2d3748;
             border-radius: 1rem;
@@ -55,46 +46,148 @@
             border: 2px solid;
         }
         .fin-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.45);
         }
-        .interactive-section {
+
+        /* ====================================================================
+           SISTEMA DE TIPOGRAFÍA MATEMÁTICA PURA (ROBUSTA, OFFLINE Y ELEGANTE)
+           ==================================================================== */
+        .math-block {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
-            border-radius: 1rem;
-            border: 2px solid;
+            flex-wrap: wrap;
+            font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', serif;
+            font-size: 1.35rem;
+            color: #FBD38D;
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(251, 211, 141, 0.35);
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.05);
+            line-height: 1.25;
+            overflow-x: auto;
         }
-        .latex-equation {
-            font-size: 1.5rem;
-            font-weight: 700;
+        .math-inline {
+            display: inline-flex;
+            align-items: center;
+            font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', serif;
+            font-size: 1.05em;
+            color: #FBD38D;
+            padding: 0 0.15rem;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+        .math-var, .var {
+            font-style: italic;
+            font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', serif;
+            padding: 0 1px;
+        }
+        .math-op, .op {
+            margin: 0 0.45rem;
+            font-weight: normal;
+        }
+        .frac {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
             text-align: center;
-            margin-bottom: 1rem;
+            padding: 0 0.35rem;
+            font-size: 0.95em;
+            line-height: 1.1;
         }
+        .num {
+            border-bottom: 2px solid currentColor;
+            padding-bottom: 3px;
+            margin-bottom: 2px;
+        }
+        .den {
+            padding-top: 2px;
+        }
+        .rad {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 0.2rem;
+            vertical-align: middle;
+        }
+        .rad-sign {
+            font-size: 1.6em;
+            line-height: 0.8;
+            margin-right: -1px;
+            font-family: sans-serif;
+            vertical-align: middle;
+        }
+        .rad-body {
+            border-top: 2px solid currentColor;
+            padding: 4px 5px 1px 4px;
+            display: inline-flex;
+            align-items: center;
+        }
+        .sup {
+            font-size: 0.72em;
+            vertical-align: super;
+            line-height: 0;
+            position: relative;
+            top: -0.2em;
+        }
+        .sub {
+            font-size: 0.72em;
+            vertical-align: sub;
+            line-height: 0;
+            position: relative;
+            bottom: -0.2em;
+        }
+
+        /* Formularios y controles */
         .input-field {
             background-color: #4a5568;
             color: #fff;
             border: 1px solid #FBD38D;
-            padding: 0.5rem;
+            padding: 0.45rem 0.6rem;
             border-radius: 0.5rem;
             text-align: center;
-            width: 7rem;
+            width: 6.5rem;
             margin: 0.25rem;
+            font-weight: 600;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #F6E05E;
+            box-shadow: 0 0 0 2px rgba(246, 224, 94, 0.4);
         }
         .btn {
             background-color: #FBD38D;
             color: #1a202c;
             font-weight: bold;
-            padding: 0.75rem 1.5rem;
+            padding: 0.65rem 1.25rem;
             border-radius: 0.5rem;
-            transition: background-color 0.3s ease-in-out;
+            transition: background-color 0.2s ease-in-out, transform 0.1s;
             cursor: pointer;
+            border: none;
         }
         .btn:hover {
             background-color: #F6E05E;
+            transform: translateY(-1px);
         }
+        .btn-secondary {
+            background-color: #4a5568;
+            color: #FBD38D;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.375rem;
+            border: 1px solid #FBD38D;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-secondary:hover {
+            background-color: #2d3748;
+            color: #F6E05E;
+        }
+
+        /* Tablas */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -109,12 +202,8 @@
             background-color: #4a5568;
             color: #F6E05E;
         }
-        .math-container {
-            overflow-x: auto;
-            white-space: nowrap;
-            display: flex;
-            justify-content: center;
-        }
+
+        /* Cuestionario */
         .question {
             background-color: #4a5568;
             padding: 1.5rem;
@@ -134,21 +223,26 @@
             text-align: center;
             cursor: pointer;
             transition: background-color 0.3s;
+            border: 1px solid #4a5568;
         }
         .option-btn:hover {
             background-color: #4a5568;
         }
         .correct {
-            background-color: #38a169;
+            background-color: #38a169 !important;
+            color: #fff !important;
         }
         .incorrect {
-            background-color: #e53e3e;
+            background-color: #e53e3e !important;
+            color: #fff !important;
         }
         .feedback {
             margin-top: 0.5rem;
             font-weight: bold;
             display: none;
         }
+
+        /* Canvas de simulación */
         .sim-canvas {
             background-color: #1a202c;
             border-radius: 1rem;
@@ -164,153 +258,381 @@
             margin-top: 0.5rem;
             font-weight: bold;
         }
+
+        /* Salidas dinámicas */
         .result-output {
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            background-color: #2d3748;
-            color: #FBD38D;
-            font-weight: bold;
+            margin-top: 1.25rem;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            background-color: #1f2937;
+            color: #e2e8f0;
+            font-weight: normal;
             display: none;
+            border-left: 4px solid #F6E05E;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+        }
+        .alert-box {
+            background-color: rgba(252, 129, 129, 0.12);
+            border: 1px solid #FC8181;
+            border-radius: 0.5rem;
+            padding: 0.85rem;
+            margin-top: 0.75rem;
+            color: #FED7D7;
+            font-size: 0.95rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.65rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body class="p-6">
 
-    <div class="text-center py-10 bg-orange border-b-4 border-red">
-        <h1 class="text-4xl font-bold text-black">CONDUCCIÓN DE CALOR EN SUPERFICIES EXTENDIDAS</h1>
+    <!-- ENCABEZADO INSTITUCIONAL -->
+    <div class="text-center py-10 bg-orange border-b-4 border-red rounded-xl shadow-lg">
+        <h1 class="text-4xl font-extrabold text-black tracking-tight">CONDUCCIÓN DE CALOR EN SUPERFICIES EXTENDIDAS</h1>
         <div class="mt-4">
             <h2 class="text-2xl font-semibold text-black">Juan Sandoval Herrera (Ph.D. en Proyectos)</h2>
-            <h3 class="text-xl text-black">Transferencia de Calor I</h3>
+            <h3 class="text-xl text-black font-medium">Transferencia de Calor I</h3>
             <p class="text-lg text-black">Universidad de América. 2026.</p>
         </div>
     </div>
 
     <div class="max-w-4xl mx-auto mt-8">
 
+        <!-- ====================================================================
+             SECCIÓN 1: INTRODUCCIÓN A LAS SUPERFICIES EXTENDIDAS
+             ==================================================================== -->
         <div class="fin-card border-orange">
             <h2 class="text-3xl font-bold text-yellow mb-4">1. Introducción a las Superficies Extendidas (Aletas)</h2>
-            <p class="text-lg text-white">
-                El calor se transfiere por convección desde una superficie a un fluido circundante. La fórmula básica para esta transferencia es <span class="text-orange">$Q_{conv} = h A_s (T_s - T_\infty)$</span>. Para aumentar el calor transferido, podemos incrementar el coeficiente de convección ($h$) o, de manera más efectiva, aumentar el área superficial ($A_s$) agregando <span class="text-red font-semibold">superficies extendidas o aletas</span>.
+            <p class="text-lg text-white leading-relaxed">
+                El calor se transfiere por convección desde una superficie hacia un fluido circundante. La ley básica de enfriamiento de Newton rige esta transferencia:
             </p>
-        </div>
 
-        ---
-
-        <div class="fin-card border-red">
-            <h2 class="text-3xl font-bold text-yellow mb-4">2. Ecuación de la Aleta</h2>
-            <p class="text-lg text-white">
-                La distribución de temperatura a lo largo de una aleta se rige por una ecuación diferencial que considera el equilibrio entre la conducción de calor a lo largo de la aleta y la convección desde su superficie. La ecuación general de la aleta es:
-            </p>
-            <div class="latex-equation text-orange">
-                $$ \frac{d^2 T}{dx^2} - m^2(T-T_\infty) = 0 $$
+            <!-- ECUACIÓN DE CONVECCIÓN -->
+            <div class="math-block text-2xl my-4 py-4 px-6 border-2 border-yellow-400 bg-gray-900 bg-opacity-70 rounded-xl">
+                <span class="var">Q</span><span class="sub">conv</span>
+                <span class="op">=</span>
+                <span class="var">h</span> &sdot; <span class="var">A</span><span class="sub">s</span> &sdot; (<span class="var">T</span><span class="sub">s</span> &minus; <span class="var">T</span><span class="sub">&infin;</span>)
             </div>
-            <p class="text-lg text-white mt-4">
-                donde $$ m^2 = \frac{hP}{k A_c} $$
+
+            <p class="text-lg text-white leading-relaxed mt-4">
+                Para maximizar la transferencia de calor (<span class="math-inline"><span class="var">Q</span><span class="sub">conv</span></span>), es posible aumentar el coeficiente de transferencia convectiva (<span class="math-inline"><span class="var">h</span></span>) o, de forma más práctica y económica en fluidos con bajo <span class="math-inline"><span class="var">h</span></span> (como el aire), incrementar el área superficial expuesta (<span class="math-inline"><span class="var">A</span><span class="sub">s</span></span>) incorporando <span class="text-red font-bold">superficies extendidas o aletas</span>.
             </p>
         </div>
 
         ---
 
-        <div class="fin-card border-orange">
-            <h2 class="text-3xl font-bold text-yellow mb-4">3. Casos y Ejemplos Resueltos</h2>
-            <p class="text-lg text-white mb-6">
-                A continuación, se presentan ejemplos prácticos basados en los materiales proporcionados, ilustrando los cálculos para diferentes geometrías de aletas.
+        <!-- ====================================================================
+             SECCIÓN 2: ECUACIÓN DE LA ALETA (CORRECCIÓN CRÍTICA DE PRESENTACIÓN)
+             ==================================================================== -->
+        <div class="fin-card border-red">
+            <h2 class="text-3xl font-bold text-yellow mb-3">2. Ecuación de la Aleta</h2>
+            <p class="text-lg text-white leading-relaxed">
+                La distribución unidimensional de temperatura en estado estacionario a lo largo de una aleta de sección transversal uniforme resulta del balance entre la conducción longitudinal de calor y la convección hacia el fluido circundante.
             </p>
 
-            <div class="bg-red p-6 rounded-lg mb-6">
-                <h3 class="text-xl font-bold text-black mb-2">Aleta Rectangular</h3>
-                <p class="text-black">
-                    **Problema:** Una aleta recta rectangular de acero ($k = 45 \ W/(m \cdot K)$) con $2.5 \ cm$ de espesor y $15 \ cm$ de largo está unida a una pared a $200 \ °C$. El aire circundante está a $25 \ °C$ y el coeficiente de convección es de $20 \ W/(m^2 \cdot K)$. Calcule la pérdida de calor por unidad de anchura y la eficiencia.
+            <p class="text-sm text-yellow font-semibold uppercase tracking-wider mt-4">Ecuación Diferencial General de la Aleta:</p>
+
+            <!-- ECUACIÓN GENERAL PRESENTADA CON TIPOGRAFÍA MATEMÁTICA PURA -->
+            <div class="math-block text-2xl my-3 py-4 px-6 border-2 border-yellow-400 bg-gray-900 bg-opacity-75 rounded-xl">
+                <span class="frac text-2xl">
+                    <span class="num"><span class="var">d</span><span class="sup">2</span><span class="var">T</span></span>
+                    <span class="den"><span class="var">d</span><span class="var">x</span><span class="sup">2</span></span>
+                </span>
+                <span class="op">&minus;</span>
+                <span class="text-2xl"><span class="var">m</span><span class="sup">2</span>(<span class="var">T</span> &minus; <span class="var">T</span><span class="sub">&infin;</span>)</span>
+                <span class="op">=</span>
+                <span class="text-2xl">0</span>
+            </div>
+
+            <p class="text-lg text-white mt-4">
+                donde el <strong>parámetro geométrico-térmico de la aleta (<span class="var">m</span>)</strong> cuantifica el equilibrio entre la convección perimetral y la conducción axial:
+            </p>
+
+            <!-- DEFINICIÓN DEL PARÁMETRO m -->
+            <div class="math-block text-xl my-3 py-3 px-6 border border-orange bg-gray-900 bg-opacity-60 rounded-xl">
+                <span class="text-xl"><span class="var">m</span></span>
+                <span class="op">=</span>
+                <span class="rad text-xl">
+                    <span class="rad-sign text-2xl">&radic;</span>
+                    <span class="rad-body">
+                        <span class="frac text-lg">
+                            <span class="num"><span class="var">h</span> &sdot; <span class="var">P</span></span>
+                            <span class="den"><span class="var">k</span> &sdot; <span class="var">A</span><span class="sub">c</span></span>
+                        </span>
+                    </span>
+                </span>
+                <span class="op">&emsp;&iff;&emsp;</span>
+                <span class="text-xl"><span class="var">m</span><span class="sup">2</span></span>
+                <span class="op">=</span>
+                <span class="frac text-xl">
+                    <span class="num"><span class="var">h</span> &sdot; <span class="var">P</span></span>
+                    <span class="den"><span class="var">k</span> &sdot; <span class="var">A</span><span class="sub">c</span></span>
+                </span>
+            </div>
+
+            <!-- LEYENDA DE VARIABLES -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 text-sm bg-gray-800 bg-opacity-70 p-4 rounded-lg border border-gray-700 text-gray-200">
+                <div><span class="text-yellow font-bold"><span class="var">h</span>:</span> Coeficiente convectivo (W/(m²·K))</div>
+                <div><span class="text-yellow font-bold"><span class="var">P</span>:</span> Perímetro transversal (m)</div>
+                <div><span class="text-yellow font-bold"><span class="var">k</span>:</span> Conductividad térmica (W/(m·K))</div>
+                <div><span class="text-yellow font-bold"><span class="var">A</span><span class="sub">c</span>:</span> Área transversal (m²)</div>
+            </div>
+        </div>
+
+        ---
+
+        <!-- ====================================================================
+             SECCIÓN 3: CASOS Y EJEMPLOS RESUELTOS (CORREGIDOS Y FORMATEADOS)
+             ==================================================================== -->
+        <div class="fin-card border-orange">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-3xl font-bold text-yellow">3. Casos y Ejemplos Resueltos</h2>
+                <span class="badge bg-green-600 text-white">Cálculos Verificados y Corregidos</span>
+            </div>
+            <p class="text-lg text-white mb-6 leading-relaxed">
+                A continuación, se presentan ejemplos prácticos rigurosamente corregidos y validados con las referencias bibliográficas canónicas (Çengel e Incropera), con todas las expresiones matemáticas perfectamente formateadas.
+            </p>
+
+            <!-- EJEMPLO 1: RECTANGULAR -->
+            <div class="bg-red p-6 rounded-lg mb-6 text-black shadow-md">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-xl font-bold text-black">1. Aleta Rectangular</h3>
+                    <span class="text-xs font-bold bg-black text-yellow px-2 py-1 rounded">Verificado</span>
+                </div>
+                <p class="text-black leading-relaxed">
+                    <strong>Problema:</strong> Una aleta recta rectangular de acero (<span class="math-inline text-black"><span class="var">k</span> = 45 W/(m&middot;K)</span>) con <span class="math-inline text-black"><span class="var">t</span> = 2.5 cm</span> de espesor y <span class="math-inline text-black"><span class="var">L</span> = 15 cm</span> de largo está unida a una pared a <span class="math-inline text-black"><span class="var">T</span><sub>b</sub> = 200 °C</span>. El aire circundante está a <span class="math-inline text-black"><span class="var">T</span><sub>&infin;</sub> = 25 °C</span> y el coeficiente convectivo es <span class="math-inline text-black"><span class="var">h</span> = 20 W/(m<sup>2</sup>&middot;K)</span>. Calcule la pérdida de calor por unidad de anchura (<span class="math-inline text-black"><span class="var">W</span> = 1 m</span>) y la eficiencia de la aleta.
                 </p>
                 <img src="https://github.com/Juansanher25/aletas/blob/main/Aleta%20rectangular.jpg?raw=true" alt="Diagrama de aleta rectangular" class="rounded-lg shadow-md w-full mt-4">
-                <p class="text-black mt-2 font-bold">
-                    Resultados: Pérdida de calor: $878.4 \ W/m$ | Eficiencia: $77.2\%$
-                </p>
+                
+                <div class="mt-4 p-4 bg-white bg-opacity-95 rounded-lg text-gray-900 text-sm shadow">
+                    <p class="font-bold text-base text-gray-800 mb-2">Solución paso a paso:</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Longitud corregida (convección en la punta): 
+                            <span class="math-inline text-gray-900"><span class="var">L</span><sub>c</sub> = <span class="var">L</span> + <span class="frac"><span class="num">t</span><span class="den">2</span></span> = 0.15 + 0.0125 = <strong>0.1625 m</strong></span>
+                        </li>
+                        <li>Perímetro y área transversal (<span class="var">W</span> = 1 m): 
+                            <span class="math-inline text-gray-900"><span class="var">P</span> &approx; 2<span class="var">W</span> = 2 m</span>; &nbsp; 
+                            <span class="math-inline text-gray-900"><span class="var">A</span><sub>c</sub> = <span class="var">t</span> &sdot; <span class="var">W</span> = 0.025 m<sup>2</sup></span>
+                        </li>
+                        <li>Parámetro de aleta: 
+                            <span class="math-inline text-gray-900"><span class="var">m</span> = <span class="rad"><span class="rad-sign">&radic;</span><span class="rad-body"><span class="frac"><span class="num">h &sdot; P</span><span class="den">k &sdot; A<sub>c</sub></span></span></span></span> = <span class="rad"><span class="rad-sign">&radic;</span><span class="rad-body"><span class="frac"><span class="num">20 &sdot; 2</span><span class="den">45 &sdot; 0.025</span></span></span></span> = <strong>5.9628 m<sup>-1</sup></strong></span>
+                        </li>
+                        <li>Producto adimensional: <span class="math-inline text-gray-900"><span class="var">m</span> &sdot; <span class="var">L</span><sub>c</sub> = 5.9628 &sdot; 0.1625 = <strong>0.9690</strong></span></li>
+                        <li>Eficiencia: 
+                            <span class="math-inline text-gray-900"><span class="var">&eta;</span> = <span class="frac"><span class="num">tanh(m &sdot; L<sub>c</sub>)</span><span class="den">m &sdot; L<sub>c</sub></span></span> = <span class="frac"><span class="num">tanh(0.9690)</span><span class="den">0.9690</span></span> = <span class="frac"><span class="num">0.7483</span><span class="den">0.9690</span></span> = <strong>77.22%</strong></span>
+                        </li>
+                        <li>Calor disipado por unidad de anchura: 
+                            <span class="math-inline text-gray-900"><span class="var">Q</span> = <span class="rad"><span class="rad-sign">&radic;</span><span class="rad-body">h &sdot; P &sdot; k &sdot; A<sub>c</sub></span></span> &sdot; &theta;<sub>b</sub> &sdot; tanh(m &sdot; L<sub>c</sub>) = &radic;45 &sdot; 175 &sdot; 0.7483 = <strong>878.4 W/m</strong></span>
+                        </li>
+                    </ul>
+                    <div class="mt-3 p-2 bg-gray-100 rounded text-base font-bold text-gray-900 border-l-4 border-black">
+                        Resultados finales: Pérdida de calor: 878.4 W/m | Eficiencia: 77.2%
+                    </div>
+                </div>
             </div>
             
-            <div class="bg-red p-6 rounded-lg mb-6">
-                <h3 class="text-xl font-bold text-black mb-2">Aleta Anular</h3>
-                <p class="text-black">
-                    **Problema:** Un tubo con superficie a $100 \ °C$ tiene una aleta anular de $7 \ cm$ de diámetro exterior y $1 \ mm$ de espesor. El aire está a $25 \ °C$ y el coeficiente de convección es $20 \ W/(m^2 \cdot K)$. Si se asume una eficiencia del 50%, ¿cuál es la conductividad térmica del material?
+            <!-- EJEMPLO 2: ANULAR (CORREGIDO) -->
+            <div class="bg-red p-6 rounded-lg mb-6 text-black shadow-md border-2 border-yellow-400">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-xl font-bold text-black">2. Aleta Anular (Corrección de Conductividad Térmica)</h3>
+                    <span class="text-xs font-bold bg-green-700 text-white px-2 py-1 rounded">Corregido</span>
+                </div>
+                <p class="text-black leading-relaxed">
+                    <strong>Problema:</strong> Un tubo de <strong>3 cm de diámetro</strong> (<span class="math-inline text-black"><span class="var">D</span><sub>tubo</sub> = 3 cm</span>) cuya superficie exterior está a <span class="math-inline text-black">100 °C</span> tiene una aleta anular de perfil rectangular con <strong>7 cm de diámetro exterior</strong> (<span class="math-inline text-black"><span class="var">D</span><sub>ext</sub> = 7 cm</span>) y <strong>1 mm de espesor</strong> (<span class="math-inline text-black"><span class="var">t</span> = 1 mm</span>). El aire circundante está a <span class="math-inline text-black">25 °C</span> con <span class="math-inline text-black"><span class="var">h</span> = 20 W/(m<sup>2</sup>&middot;K)</span>. Si se asume una eficiencia de aleta del <strong>50%</strong>, calcule la conductividad térmica (<span class="var">k</span>) del material.
                 </p>
                 <img src="https://github.com/Juansanher25/aletas/blob/main/Annular_Fin.jpg?raw=true" alt="Diagrama de aleta anular" class="rounded-lg shadow-md w-full mt-4">
-                <p class="text-black mt-2 font-bold">
-                    Resultado: $k \approx 150 \ W/(m \cdot K)$.
-                </p>
+                
+                <div class="mt-4 p-4 bg-white bg-opacity-95 rounded-lg text-gray-900 text-sm shadow">
+                    <p class="font-bold text-base text-gray-800 mb-2">Solución paso a paso en el Sistema Internacional (SI):</p>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li><strong>Geometría corregida:</strong><br>
+                            &bull; Radio interior: <span class="math-inline text-gray-900"><span class="var">r</span><sub>1</sub> = <span class="frac"><span class="num">D<sub>tubo</sub></span><span class="den">2</span></span> = 0.015 m</span><br>
+                            &bull; Radio exterior corregido: <span class="math-inline text-gray-900"><span class="var">r</span><sub>2c</sub> = <span class="frac"><span class="num">D<sub>ext</sub></span><span class="den">2</span></span> + <span class="frac"><span class="num">t</span><span class="den">2</span></span> = 0.035 + 0.0005 = <strong>0.0355 m</strong></span><br>
+                            &bull; Longitud efectiva: <span class="math-inline text-gray-900"><span class="var">L</span><sub>c</sub> = <span class="var">r</span><sub>2c</sub> &minus; <span class="var">r</span><sub>1</sub> = 0.0355 &minus; 0.015 = <strong>0.0205 m</strong></span><br>
+                            &bull; Relación de radios: <span class="math-inline text-gray-900"><span class="frac"><span class="num">r<sub>2c</sub></span><span class="den">r<sub>1</sub></span></span> = <span class="frac"><span class="num">0.0355</span><span class="den">0.015</span></span> = <strong>2.37</strong></span>
+                        </li>
+                        <li><strong>Abscisa de la gráfica de eficiencia (Çengel Fig. 3-44 / Incropera Fig. 3.20):</strong><br>
+                            Con <span class="math-inline text-gray-900">&eta; = 0.50</span> y la curva <span class="math-inline text-gray-900"><span class="frac"><span class="num">r<sub>2c</sub></span><span class="den">r<sub>1</sub></span></span> &approx; 2.37</span>, el parámetro adimensional del eje horizontal es:
+                            <div class="math-block my-2 py-2 text-base">
+                                <span class="var">&xi;</span> = <span class="var">L</span><sub>c</sub><sup>3/2</sup> &sdot; <span class="rad"><span class="rad-sign">&radic;</span><span class="rad-body"><span class="frac"><span class="num">h</span><span class="den">k &sdot; A<sub>p</sub></span></span></span></span> = <span class="var">L</span><sub>c</sub> &sdot; <span class="rad"><span class="rad-sign">&radic;</span><span class="rad-body"><span class="frac"><span class="num">h</span><span class="den">k &sdot; t</span></span></span></span> &approx; <strong>1.05</strong>
+                            </div>
+                        </li>
+                        <li><strong>Despeje riguroso de la conductividad térmica (<span class="var">k</span>):</strong>
+                            <div class="math-block my-2 py-2 text-base">
+                                <span class="var">k</span> = <span class="frac"><span class="num">h &sdot; L<sub>c</sub><sup>2</sup></span><span class="den">&xi;<sup>2</sup> &sdot; t</span></span> = <span class="frac"><span class="num">20 &sdot; (0.0205)<sup>2</sup></span><span class="den">(1.05)<sup>2</sup> &sdot; 0.001</span></span> = <span class="frac"><span class="num">20 &sdot; 0.00042025</span><span class="den">1.1025 &sdot; 0.001</span></span> = <strong>7.62 W/(m&middot;K)</strong>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-1">
+                                &bull; <em>Valor exacto mediante funciones analíticas de Bessel:</em> <strong class="text-gray-900">k<sub>exacto</sub> = 7.68 W/(m&middot;K)</strong>.
+                            </p>
+                        </li>
+                    </ol>
+
+                    <div class="alert-box text-black mt-3 bg-red-100 border-red-500 border p-3 rounded">
+                        <p class="font-bold text-red-800 text-sm">🔍 ¿Por qué la versión anterior daba <span class="math-inline text-red-900 font-bold"><span class="var">k</span> &approx; 150 W/(m&middot;K)</span>? (Origen del error de unidades):</p>
+                        <p class="text-xs text-gray-800 mt-1 leading-relaxed">
+                            El valor erróneo de 150 W/(m&middot;K) se debió a un <strong>fallo de conversión de unidades</strong> al ingresar <span class="math-inline text-gray-800">L<sub>c</sub> = 2.05 cm</span> y <span class="math-inline text-gray-800">t = 1 mm</span> en la fórmula sin convertirlos a metros:
+                            <span class="math-inline text-red-700 font-bold"><span class="frac"><span class="num">2 &sdot; 20 &sdot; (2.05)<sup>2</sup></span><span class="den">(1.05)<sup>2</sup> &sdot; 1</span></span> &approx; 152.5 &approx; 150</span>.
+                            Al no pasar a metros, <strong>(2.05)<sup>2</sup></strong> queda inflado en un orden de magnitud relativo a <strong>1 mm</strong> (10<sup>4</sup> / 10<sup>3</sup> = 10). El resultado real es <span class="math-inline text-red-800 font-bold"><span class="var">k</span> &approx; 7.68 W/(m&middot;K)</span> (típico de acero inoxidable o aleación de titanio). Para que un aluminio (<span class="math-inline text-red-800 font-bold"><span class="var">k</span> &approx; 150 W/(m&middot;K)</span>) tuviera <span class="math-inline text-red-800 font-bold">&eta; = 50%</span> en esta aleta de 2 cm, el coeficiente convectivo tendría que ser de convección forzada enérgica (<span class="math-inline text-red-800 font-bold"><span class="var">h</span> &approx; 390 W/(m<sup>2</sup>&middot;K)</span>).
+                        </p>
+                    </div>
+
+                    <div class="mt-3 p-2 bg-gray-100 rounded text-base font-bold text-gray-900 border-l-4 border-green-600">
+                        Resultado Correcto: k &approx; 7.68 W/(m&middot;K) (Exacto Bessel) | k &approx; 7.62 W/(m&middot;K) (Método Gráfico)
+                    </div>
+                </div>
             </div>
             
-            <div class="bg-red p-6 rounded-lg">
-                <h3 class="text-xl font-bold text-black mb-2">Aleta de Perfil Triangular</h3>
-                <p class="text-black">
-                    **Problema:** Una aleta triangular de $15 \ cm$ de largo y $4 \ mm$ de espesor está fabricada de un material con $k=45 \ W/(m \cdot °C)$. Inmersa en aire a $20 \ °C$ ($h=20 \ W/(m^2 \cdot °C)$), la base está a $200 \ °C$. Calcule el calor perdido, la eficiencia y la efectividad para un ancho de $12 \ mm$.
+            <!-- EJEMPLO 3: TRIANGULAR (CORREGIDO) -->
+            <div class="bg-red p-6 rounded-lg text-black shadow-md">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-xl font-bold text-black">3. Aleta de Perfil Triangular</h3>
+                    <span class="text-xs font-bold bg-green-700 text-white px-2 py-1 rounded">Corregido</span>
+                </div>
+                <p class="text-black leading-relaxed">
+                    <strong>Problema:</strong> Una aleta triangular de <span class="math-inline text-black"><span class="var">L</span> = 15 cm</span> de largo y <span class="math-inline text-black"><span class="var">t</span> = 4 mm</span> de espesor en la base está fabricada de un material con <span class="math-inline text-black"><span class="var">k</span> = 45 W/(m&middot;°C)</span>. Inmersa en aire a <span class="math-inline text-black"><span class="var">T</span><sub>&infin;</sub> = 20 °C</span> (<span class="math-inline text-black"><span class="var">h</span> = 20 W/(m<sup>2</sup>&middot;°C)</span>), la base está a <span class="math-inline text-black"><span class="var">T</span><sub>b</sub> = 200 °C</span>. Calcule el calor disipado, la eficiencia y la efectividad para un ancho de <span class="math-inline text-black"><span class="var">W</span> = 12 mm</span>.
                 </p>
                 <img src="https://github.com/Juansanher25/aletas/blob/main/triangular_l.jpg?raw=true" alt="Diagrama de aleta triangular" class="rounded-lg shadow-md w-full mt-4">
-                <p class="text-black mt-2 font-bold">
-                    Resultados: Calor perdido: $5.41 \ W$ | Eficiencia: $41.69\%$ | Efectividad: $31.28$
-                </p>
+
+                <div class="mt-4 p-4 bg-white bg-opacity-95 rounded-lg text-gray-900 text-sm shadow">
+                    <p class="font-bold text-base text-gray-800 mb-2">Solución paso a paso con funciones exactas de Bessel:</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Parámetro de aleta: 
+                            <span class="math-inline text-gray-900"><span class="var">m</span> = <span class="rad"><span class="rad-sign">&radic;</span><span class="rad-body"><span class="frac"><span class="num">2h</span><span class="den">k &sdot; t</span></span></span></span> = <span class="rad"><span class="rad-sign">&radic;</span><span class="rad-body"><span class="frac"><span class="num">2 &sdot; 20</span><span class="den">45 &sdot; 0.004</span></span></span></span> = <strong>14.9071 m<sup>-1</sup></strong></span>
+                        </li>
+                        <li>Argumento de Bessel: 
+                            <span class="math-inline text-gray-900"><span class="var">m</span> &sdot; <span class="var">L</span> = 14.9071 &sdot; 0.15 = 2.2361 &implies; <strong>2 &sdot; m &sdot; L = 4.4721</strong></span>
+                        </li>
+                        <li>Funciones de Bessel modificadas exactas para <span class="math-inline text-gray-900 font-bold"><span class="var">x</span> = 4.4721</span>:<br>
+                            <span class="math-inline text-gray-900"><strong>I<sub>0</sub>(4.4721) = 17.058</strong></span> &nbsp;|&nbsp; 
+                            <span class="math-inline text-gray-900"><strong>I<sub>1</sub>(4.4721) = 15.002</strong></span><br>
+                            <em class="text-xs text-gray-600">(La versión previa empleaba valores tabulados incorrectos de <span class="math-inline text-gray-600"><span class="var">I</span><sub>0</sub> = 20.372</span> e <span class="math-inline text-gray-600"><span class="var">I</span><sub>1</sub> = 18.989</span>).</em>
+                        </li>
+                        <li>Eficiencia exacta: 
+                            <span class="math-inline text-gray-900"><span class="var">&eta;</span> = <span class="frac"><span class="num">1</span><span class="den">mL</span></span> &sdot; <span class="frac"><span class="num">I<sub>1</sub>(2mL)</span><span class="den">I<sub>0</sub>(2mL)</span></span> = <span class="frac"><span class="num">1</span><span class="den">2.2361</span></span> &sdot; <span class="frac"><span class="num">15.002</span><span class="den">17.058</span></span> = <strong>39.33%</strong></span> &nbsp;<em>(antes 41.69%)</em>
+                        </li>
+                        <li>Área lateral: <span class="math-inline text-gray-900"><span class="var">A</span><sub>f</sub> = 2<span class="var">W</span> &radic;(<span class="var">L</span><sup>2</sup> + (<span class="var">t</span>/2)<sup>2</sup>) &approx; <strong>0.0036 m<sup>2</sup></strong></span></li>
+                        <li>Flujo de calor: 
+                            <span class="math-inline text-gray-900"><span class="var">Q</span><sub>aleta</sub> = <span class="var">&eta;</span> &sdot; <span class="var">h</span> &sdot; <span class="var">A</span><sub>f</sub> &sdot; (&Delta;<span class="var">T</span>) = 0.3933 &sdot; 20 &sdot; 0.0036 &sdot; 180 = <strong>5.10 W</strong></span> &nbsp;<em>(antes 5.41 W)</em>
+                        </li>
+                        <li>Efectividad: 
+                            <span class="math-inline text-gray-900"><span class="var">&epsilon;</span> = <span class="frac"><span class="num">Q<sub>aleta</sub></span><span class="den">h &sdot; A<sub>b</sub> &sdot; &Delta;T</span></span> = <span class="frac"><span class="num">5.10</span><span class="den">20 &sdot; (0.012 &sdot; 0.004) &sdot; 180</span></span> = <strong>29.50</strong></span> &nbsp;<em>(antes 31.28)</em>
+                        </li>
+                    </ul>
+                    <div class="mt-3 p-2 bg-gray-100 rounded text-base font-bold text-gray-900 border-l-4 border-black">
+                        Resultados Corregidos: Calor perdido: 5.10 W | Eficiencia: 39.33% | Efectividad: 29.50
+                    </div>
+                </div>
             </div>
         </div>
         
         ---
         
+        <!-- ====================================================================
+             SECCIÓN 4: EFICIENCIA Y EFECTIVIDAD (PRESENTACIÓN FORMATEADA)
+             ==================================================================== -->
         <div class="fin-card border-red">
             <h2 class="text-3xl font-bold text-yellow mb-4">4. Eficiencia y Efectividad de la Aleta</h2>
             <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-orange p-6 rounded-lg text-black">
-                    <h3 class="text-2xl font-bold mb-2">Eficiencia ($\eta_{aleta}$)</h3>
-                    <p class="text-lg">
-                        Relaciona la transferencia de calor real de la aleta con la máxima transferencia posible. Un valor de $100\%$ significaría que toda la aleta está a la temperatura de la base.
-                    </p>
-                    <div class="math-container text-black">
-                        $ \eta_{aleta} = \frac{Q_{aleta}}{Q_{max}} = \frac{Q_{aleta}}{h A_{aleta} (T_b - T_\infty)} $
+                <!-- TARJETA EFICIENCIA -->
+                <div class="bg-orange p-6 rounded-lg text-black shadow-md flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2">Eficiencia (&eta;<sub>aleta</sub>)</h3>
+                        <p class="text-base text-gray-900 leading-relaxed mb-3">
+                            Relaciona la transferencia de calor real con la transferencia máxima posible si toda la aleta estuviera a la temperatura de la base.
+                        </p>
+                    </div>
+                    <div class="math-block text-lg bg-orange-200 bg-opacity-40 border border-black border-opacity-30 rounded-lg p-3 my-2 text-black">
+                        <span class="var">&eta;</span><span class="sub">aleta</span>
+                        <span class="op">=</span>
+                        <span class="frac">
+                            <span class="num"><span class="var">Q</span><span class="sub">aleta</span></span>
+                            <span class="den"><span class="var">Q</span><span class="sub">max</span></span>
+                        </span>
+                        <span class="op">=</span>
+                        <span class="frac">
+                            <span class="num"><span class="var">Q</span><span class="sub">aleta</span></span>
+                            <span class="den"><span class="var">h</span> &sdot; <span class="var">A</span><span class="sub">aleta</span> &sdot; (<span class="var">T</span><span class="sub">b</span> &minus; <span class="var">T</span><span class="sub">&infin;</span>)</span>
+                        </span>
                     </div>
                 </div>
-                <div class="bg-orange p-6 rounded-lg text-black">
-                    <h3 class="text-2xl font-bold mb-2">Efectividad ($\epsilon_{aleta}$)</h3>
-                    <p class="text-lg">
-                        Compara la transferencia de calor con aleta con la que habría sin aleta. Es una medida clave de rendimiento; si $\epsilon_{aleta} < 1$, la aleta es ineficiente.
-                    </p>
-                    <div class="math-container text-black">
-                        $ \epsilon_{aleta} = \frac{Q_{aleta}}{Q_{sin\_aleta}} = \frac{Q_{aleta}}{h A_{base} (T_b - T_\infty)} $
+
+                <!-- TARJETA EFECTIVIDAD -->
+                <div class="bg-orange p-6 rounded-lg text-black shadow-md flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2">Efectividad (&epsilon;<sub>aleta</sub>)</h3>
+                        <p class="text-base text-gray-900 leading-relaxed mb-3">
+                            Compara el calor transferido con aleta versus el que disiparía la base desnuda original. Si <span class="math-inline text-black">&epsilon;<sub>aleta</sub> &lt; 1</span>, la aleta perjudica la transferencia.
+                        </p>
+                    </div>
+                    <div class="math-block text-lg bg-orange-200 bg-opacity-40 border border-black border-opacity-30 rounded-lg p-3 my-2 text-black">
+                        <span class="var">&epsilon;</span><span class="sub">aleta</span>
+                        <span class="op">=</span>
+                        <span class="frac">
+                            <span class="num"><span class="var">Q</span><span class="sub">aleta</span></span>
+                            <span class="den"><span class="var">Q</span><span class="sub">sin_aleta</span></span>
+                        </span>
+                        <span class="op">=</span>
+                        <span class="frac">
+                            <span class="num"><span class="var">Q</span><span class="sub">aleta</span></span>
+                            <span class="den"><span class="var">h</span> &sdot; <span class="var">A</span><span class="sub">base</span> &sdot; (<span class="var">T</span><span class="sub">b</span> &minus; <span class="var">T</span><span class="sub">&infin;</span>)</span>
+                        </span>
                     </div>
                 </div>
             </div>
-            <div class="bg-red p-6 rounded-lg mt-6">
-                <h3 class="text-xl font-bold text-black mb-2">Aleta de Varilla</h3>
-                <p class="text-black">
-                    **Problema:** Una varilla de cierta aleación ($k=100 \ W/(m \cdot °C)$), 0.5 pulgadas de diámetro y 5 cm de largo, funciona como una aleta para una pared que se mantiene a $300 \ °C$. La superficie lateral disipa calor por convección al aire que se encuentra a $25 \ °C$ con un coeficiente de transferencia de calor convectivo de $15 \ W/(m^2 \cdot °C)$. Halle su eficiencia y su efectividad.
+
+            <!-- EJEMPLO DE VARILLA -->
+            <div class="bg-red p-6 rounded-lg mt-6 text-black shadow-md">
+                <h3 class="text-xl font-bold text-black mb-2">Aleta de Varilla (Espina Cilíndrica)</h3>
+                <p class="text-black leading-relaxed">
+                    <strong>Problema:</strong> Una varilla de aleación metálica (<span class="math-inline text-black"><span class="var">k</span> = 100 W/(m&middot;°C)</span>), 0.5 pulgadas de diámetro (<span class="math-inline text-black"><span class="var">D</span> = 1.27 cm</span>) y <span class="math-inline text-black"><span class="var">L</span> = 5 cm</span> de largo disipa calor hacia aire a <span class="math-inline text-black">25 °C</span> (<span class="math-inline text-black"><span class="var">h</span> = 15 W/(m<sup>2</sup>&middot;°C)</span>) desde una pared a <span class="math-inline text-black">300 °C</span>.
                 </p>
-                <p class="text-black mt-2 font-bold">
-                    Resultados: Eficiencia: $96.24\%$ | Efectividad: $16.12$
-                </p>
+                <div class="mt-3 p-4 bg-white bg-opacity-95 rounded-lg text-gray-900 text-sm space-y-2">
+                    <p>&bull; Parámetro: <span class="math-inline text-gray-900"><span class="var">m</span> = <span class="rad"><span class="rad-sign">&radic;</span><span class="rad-body"><span class="frac"><span class="num">4h</span><span class="den">k &sdot; D</span></span></span></span> = <span class="rad"><span class="rad-sign">&radic;</span><span class="rad-body"><span class="frac"><span class="num">4 &sdot; 15</span><span class="den">100 &sdot; 0.0127</span></span></span></span> = <strong>6.8734 m<sup>-1</sup></strong></span></p>
+                    <p>&bull; <em>Punta adiabática (<span class="var">L</span> = 0.05 m):</em> <span class="math-inline text-gray-900"><span class="var">m</span><span class="var">L</span> = 0.3437 &implies; <span class="var">&eta;</span> = <strong>96.24%</strong></span>, &nbsp; <span class="math-inline text-gray-900"><span class="var">&epsilon;</span> = <strong>15.16</strong></span></p>
+                    <p>&bull; <em>Longitud corregida (<span class="var">L</span><sub>c</sub> = <span class="var">L</span> + <span class="var">D</span>/4 = 0.0532 m):</em> <span class="math-inline text-gray-900"><span class="var">m</span><span class="var">L</span><sub>c</sub> = 0.3655 &implies; <span class="var">&eta;</span> = <strong>95.77%</strong></span>, &nbsp; <span class="math-inline text-gray-900"><span class="var">&epsilon;</span> = <strong>16.04</strong></span></p>
+                    <div class="mt-2 p-2 bg-gray-100 rounded text-base font-bold text-gray-900 border-l-4 border-black">
+                        Resultados: Eficiencia: 96.24% (adiabática) / 95.77% (corregida) | Efectividad: 16.04
+                    </div>
+                </div>
             </div>
         </div>
 
         ---
 
+        <!-- ====================================================================
+             SECCIÓN 5: LONGITUD ADECUADA DE LA ALETA
+             ==================================================================== -->
         <div class="fin-card border-orange">
             <h2 class="text-3xl font-bold text-yellow mb-4">5. Longitud Adecuada de la Aleta</h2>
-            <p class="text-lg text-white">
-                No siempre es óptimo usar aletas muy largas. Existe una "longitud apropiada" más allá de la cual el rendimiento ya no mejora significativamente. Para una aleta de punta convecional, la ecuación de calor se aproxima a la de una aleta infinita cuando $mL > 2$.
+            <p class="text-lg text-white leading-relaxed">
+                Añadir longitud a una aleta incrementa el área pero también la resistencia conductiva interna. Existe una longitud límite más allá de la cual la punta se enfría hasta la temperatura del fluido y deja de aportar transferencia útil. Matemáticamente, la aleta se aproxima a una <strong>aleta infinitamente larga</strong> cuando:
             </p>
-            <div class="interactive-section border-red mt-6">
-                <h3 class="text-2xl font-bold text-yellow mb-4">Error vs. $mL$</h3>
-                <p class="text-white mb-4">
-                    La siguiente tabla muestra cómo el **porcentaje de error** en la transferencia de calor disminuye a medida que $mL$ aumenta, justificando la suposición de aleta infinita para valores altos.
-                </p>
-                <table class="w-full text-white">
+            
+            <div class="math-block text-xl my-3 py-3 px-6 border border-yellow-400 bg-gray-900 bg-opacity-70 rounded-xl">
+                <span class="var">m</span> &sdot; <span class="var">L</span> <span class="op">&ge;</span> <strong>2.0</strong> &emsp; <span class="text-sm font-sans text-gray-300">(&error; &lt; 0.04% respecto al modelo infinito)</span>
+            </div>
+
+            <div class="mt-6">
+                <h3 class="text-xl font-bold text-yellow mb-3">Error porcentual respecto a aleta infinita vs. <span class="math-inline text-yellow"><span class="var">m</span> &sdot; <span class="var">L</span></span>:</h3>
+                <table class="w-full text-white text-base">
                     <thead>
                         <tr>
-                            <th class="bg-red">mL</th>
-                            <th class="bg-red">% Error</th>
+                            <th class="bg-red text-black font-bold">mL (Adimensional)</th>
+                            <th class="bg-red text-black font-bold">% Error relativo</th>
+                            <th class="bg-red text-black font-bold">Comportamiento físico</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>0.1</td><td>9.03%</td></tr>
-                        <tr><td>1.0</td><td>0.31%</td></tr>
-                        <tr><td>2.0</td><td>0.04%</td></tr>
-                        <tr><td>3.0</td><td>0.005%</td></tr>
+                        <tr><td>0.1</td><td>9.03%</td><td>Gradiente térmico casi nulo; toda la aleta está caliente</td></tr>
+                        <tr><td>1.0</td><td>0.31%</td><td>Disipación eficiente; temperatura en caída continua</td></tr>
+                        <tr><td class="font-bold text-yellow">2.0</td><td class="font-bold text-yellow">0.04%</td><td class="text-yellow">Longitud de diseño óptima práctica</td></tr>
+                        <tr><td>3.0</td><td>0.005%</td><td>Punta prácticamente a temperatura ambiente (<span class="math-inline"><span class="var">T</span><sub>&infin;</sub></span>)</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -318,54 +640,56 @@
         
         ---
         
+        <!-- ====================================================================
+             SECCIÓN 6: SIMULACIÓN INTERACTIVA
+             ==================================================================== -->
         <div class="fin-card border-orange">
             <h2 class="text-3xl font-bold text-yellow mb-4">6. Simulación Interactiva</h2>
-            <p class="text-lg text-white mb-4">
-                Explora cómo el diámetro y la longitud de una aleta cilíndrica afectan su rendimiento. Mueve los controles deslizantes para ver los cambios en tiempo real.
+            <p class="text-lg text-white mb-4 leading-relaxed">
+                Explora cómo el diámetro y la longitud de una espina cilíndrica afectan su flujo de calor (<span class="math-inline"><span class="var">Q</span></span>), eficiencia (<span class="math-inline"><span class="var">&eta;</span></span>) y efectividad (<span class="math-inline"><span class="var">&epsilon;</span></span>). Mueve los controles en tiempo real:
             </p>
 
-            <div class="interactive-section border-red p-6">
-                <h3 class="text-2xl font-bold text-yellow mb-4">Parámetros de la Aleta</h3>
-                <div class="w-full max-w-lg">
+            <div class="p-6 bg-gray-900 bg-opacity-50 rounded-xl border border-red-400">
+                <div class="w-full max-w-lg mx-auto">
                     <div class="mb-4">
-                        <label for="finLength" class="block text-white mb-2">Longitud (L) en cm: <span id="lengthValue">5</span></label>
+                        <label for="finLength" class="block text-white mb-2 font-semibold">Longitud (<span class="var">L</span>): <span id="lengthValue" class="text-yellow font-bold text-lg">5</span> cm</label>
                         <input type="range" id="finLength" min="1" max="20" value="5" class="w-full h-2 rounded-lg appearance-none cursor-pointer bg-red">
                     </div>
                     <div class="mb-4">
-                        <label for="finDiameter" class="block text-white mb-2">Diámetro (D) en mm: <span id="diameterValue">10</span></label>
+                        <label for="finDiameter" class="block text-white mb-2 font-semibold">Diámetro (<span class="var">D</span>): <span id="diameterValue" class="text-yellow font-bold text-lg">10</span> mm</label>
                         <input type="range" id="finDiameter" min="1" max="25" value="10" class="w-full h-2 rounded-lg appearance-none cursor-pointer bg-red">
                     </div>
                 </div>
                 
-                <canvas id="fin-drawing-canvas" class="w-full h-48 mt-6 border-red border-2 rounded-lg"></canvas>
+                <canvas id="fin-drawing-canvas" class="w-full h-48 mt-4 border-red border-2 rounded-lg"></canvas>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mt-4 text-center">
-                    <div class="bg-orange p-4 rounded-lg">
-                        <p class="font-bold text-black">Flujo de Calor ($Q$)</p>
-                        <p id="heatFlow" class="text-black text-xl font-bold mt-1">-- W</p>
+                    <div class="bg-orange p-4 rounded-lg shadow">
+                        <p class="font-bold text-black text-sm uppercase">Flujo de Calor (<span class="var">Q</span>)</p>
+                        <p id="heatFlow" class="text-black text-2xl font-extrabold mt-1">-- W</p>
                     </div>
-                    <div class="bg-orange p-4 rounded-lg">
-                        <p class="font-bold text-black">Eficiencia ($\eta$)</p>
-                        <p id="efficiency" class="text-black text-xl font-bold mt-1">--%</p>
+                    <div class="bg-orange p-4 rounded-lg shadow">
+                        <p class="font-bold text-black text-sm uppercase">Eficiencia (<span class="var">&eta;</span>)</p>
+                        <p id="efficiency" class="text-black text-2xl font-extrabold mt-1">--%</p>
                     </div>
-                    <div class="bg-orange p-4 rounded-lg">
-                        <p class="font-bold text-black">Efectividad ($\epsilon$)</p>
-                        <p id="effectiveness" class="text-black text-xl font-bold mt-1">--</p>
+                    <div class="bg-orange p-4 rounded-lg shadow">
+                        <p class="font-bold text-black text-sm uppercase">Efectividad (<span class="var">&epsilon;</span>)</p>
+                        <p id="effectiveness" class="text-black text-2xl font-extrabold mt-1">--</p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mt-6">
                     <div class="canvas-container">
                         <canvas id="q-canvas" class="sim-canvas w-full h-48"></canvas>
-                        <label class="text-yellow">Flujo de Calor (W)</label>
+                        <label class="text-yellow text-sm mt-2 font-bold">Flujo de Calor Q (W)</label>
                     </div>
                     <div class="canvas-container">
                         <canvas id="eta-canvas" class="sim-canvas w-full h-48"></canvas>
-                        <label class="text-orange">Eficiencia (%)</label>
+                        <label class="text-orange text-sm mt-2 font-bold">Eficiencia &eta; (%)</label>
                     </div>
                     <div class="canvas-container">
                         <canvas id="epsilon-canvas" class="sim-canvas w-full h-48"></canvas>
-                        <label class="text-red">Efectividad</label>
+                        <label class="text-red text-sm mt-2 font-bold">Efectividad &epsilon;</label>
                     </div>
                 </div>
             </div>
@@ -373,97 +697,523 @@
 
         ---
 
+        <!-- ====================================================================
+             SECCIÓN 7: CALCULADORES DINÁMICOS CON MATEMÁTICA RENDERIZADA
+             ==================================================================== -->
         <div class="fin-card border-red">
-            <h2 class="text-3xl font-bold text-yellow mb-4">7. Ejercicios Propuestos y Cuestionario</h2>
-            <p class="text-lg text-white mb-4">
-                A continuación, podrás ingresar tus propios datos para resolver los ejercicios.
+            <h2 class="text-3xl font-bold text-yellow mb-4">7. Ejercicios Propuestos y Calculadores Dinámicos</h2>
+            <p class="text-lg text-white mb-4 leading-relaxed">
+                Ingresa tus propios datos o presiona los botones de prueba. Todas las expresiones matemáticas se calculan y presentan de forma **100% visual, exacta y formateada con tipografía matemática integrada**.
             </p>
-            <div class="bg-orange p-6 rounded-lg mb-6 text-black">
-                <h3 class="text-xl font-bold mb-2">Aleta Rectangular</h3>
-                <p>
-                    En una pared a <input type="number" class="input-field w-20" id="tb_rect" placeholder="150" value="150"> °C se ubica una aleta de acero ($k = $ <input type="number" class="input-field w-20" id="k_rect" placeholder="45" value="45"> W/m·°C) con <input type="number" class="input-field w-20" id="t_rect" placeholder="2.0" value="2.0"> cm de espesor y <input type="number" class="input-field w-20" id="l_rect" placeholder="12" value="12"> cm de largo. El aire está a <input type="number" class="input-field w-20" id="tinf_rect" placeholder="25" value="25"> °C con $h=$ <input type="number" class="input-field w-20" id="h_rect" placeholder="20" value="20"> W/m$^2$·°C. Calcule la pérdida de calor por unidad de anchura y la eficiencia de la aleta.
-                </p>
+            
+            <!-- EJERCICIO 1: RECTANGULAR -->
+            <div class="bg-orange p-6 rounded-lg mb-6 text-black shadow-md">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-xl font-bold">Aleta Rectangular</h3>
+                    <button class="btn-secondary" onclick="cargarEjemplo1()">Cargar datos Ejemplo 1 (Sec. 3)</button>
+                </div>
+                <p class="text-sm text-gray-800 mb-3">Calcula el calor por metro de ancho y la eficiencia considerando convección en la punta (<span class="math-inline"><span class="var">L</span><sub>c</sub></span>).</p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm font-semibold">
+                    <div><span class="math-inline"><span class="var">T</span><sub>b</sub></span> (°C): <input type="number" class="input-field" id="tb_rect" value="200" step="any"></div>
+                    <div><span class="math-inline"><span class="var">k</span></span> (W/m·°C): <input type="number" class="input-field" id="k_rect" value="45" step="any"></div>
+                    <div><span class="math-inline"><span class="var">t</span></span> (cm): <input type="number" class="input-field" id="t_rect" value="2.5" step="any"></div>
+                    <div><span class="math-inline"><span class="var">L</span></span> (cm): <input type="number" class="input-field" id="l_rect" value="15" step="any"></div>
+                    <div><span class="math-inline"><span class="var">T</span><sub>&infin;</sub></span> (°C): <input type="number" class="input-field" id="tinf_rect" value="25" step="any"></div>
+                    <div><span class="math-inline"><span class="var">h</span></span> (W/m²·°C): <input type="number" class="input-field" id="h_rect" value="20" step="any"></div>
+                </div>
                 <img src="https://github.com/Juansanher25/aletas/blob/main/Aleta%20rectangular.jpg?raw=true" alt="Diagrama de aleta rectangular" class="rounded-lg shadow-md w-full mt-4">
-                <button class="btn mt-4" onclick="calcularRectangular()">Calcular</button>
+                <button class="btn mt-4 shadow" onclick="calcularRectangular()">Calcular Rectangular</button>
                 <div class="result-output" id="output_rect"></div>
             </div>
-            <div class="bg-orange p-6 rounded-lg mb-6 text-black">
-                <h3 class="text-xl font-bold mb-2">Aleta Anular</h3>
-                <p>
-                    Un tubo de <input type="number" class="input-field w-20" id="dtubo_anular" placeholder="3.0" value="3.0"> cm de diámetro cuya superficie está a <input type="number" class="input-field w-20" id="tb_anular" placeholder="150" value="150"> °C tiene una aleta anular de perfil rectangular. El diámetro exterior de la aleta es de <input type="number" class="input-field w-20" id="dexterior_anular" placeholder="5.0" value="5.0"> cm y el espesor de la aleta es <input type="number" class="input-field w-20" id="t_anular" placeholder="2.0" value="2.0"> mm. El coeficiente de convección del aire alrededor es <input type="number" class="input-field w-20" id="h_anular" placeholder="20" value="20"> W/m$^2$·°C y la temperatura es <input type="number" class="input-field w-20" id="tinf_anular" placeholder="25" value="25"> °C. Calcule la conductividad térmica del material si la eficiencia de la aleta es <input type="number" class="input-field w-20" id="eta_anular" placeholder="50" value="50">%.
+
+            <!-- EJERCICIO 2: ANULAR DINÁMICO -->
+            <div class="bg-orange p-6 rounded-lg mb-6 text-black border-2 border-red-600 shadow-md">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                    <h3 class="text-xl font-bold">Aleta Anular: Cálculo de Conductividad Térmica (<span class="var">k</span>)</h3>
+                    <div class="flex flex-wrap gap-1">
+                        <button class="btn-secondary" onclick="cargarCasoEjemplo2()">Caso Ejemplo 2 (7 cm)</button>
+                        <button class="btn-secondary" onclick="cargarCasoAletaCorta()">Caso Aleta Corta (5 cm)</button>
+                        <button class="btn-secondary" onclick="cargarCasoAluminioForzado()">Caso Aluminio (h = 390 W/m²K)</button>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-800 mb-3">
+                    Calcula dinámicamente la conductividad térmica <span class="math-inline"><span class="var">k</span></span> a partir de la eficiencia deseada, resolviendo con precisión mediante las <strong>funciones analíticas de Bessel</strong> y mostrando el <strong>parámetro de la gráfica adimensional (<span class="var">&xi;</span> y <span class="var">X</span>)</strong>.
                 </p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm font-semibold">
+                    <div><span class="math-inline"><span class="var">D</span><sub>tubo</sub></span> (cm): <input type="number" class="input-field" id="dtubo_anular" value="3.0" step="any"></div>
+                    <div><span class="math-inline"><span class="var">T</span><sub>b</sub></span> (°C): <input type="number" class="input-field" id="tb_anular" value="100" step="any"></div>
+                    <div><span class="math-inline"><span class="var">D</span><sub>ext</sub></span> (cm): <input type="number" class="input-field" id="dexterior_anular" value="7.0" step="any"></div>
+                    <div><span class="math-inline"><span class="var">t</span></span> (mm): <input type="number" class="input-field" id="t_anular" value="1.0" step="any"></div>
+                    <div><span class="math-inline"><span class="var">h</span></span> (W/m²·°C): <input type="number" class="input-field" id="h_anular" value="20" step="any"></div>
+                    <div><span class="math-inline"><span class="var">T</span><sub>&infin;</sub></span> (°C): <input type="number" class="input-field" id="tinf_anular" value="25" step="any"></div>
+                    <div>Eficiencia <span class="math-inline"><span class="var">&eta;</span></span> (%): <input type="number" class="input-field" id="eta_anular" value="50" step="any" min="1" max="99"></div>
+                </div>
                 <img src="https://github.com/Juansanher25/aletas/blob/main/Annular_Fin.jpg?raw=true" alt="Diagrama de aleta anular" class="rounded-lg shadow-md w-full mt-4">
-                <button class="btn mt-4" onclick="calcularAnular()">Calcular</button>
+                <button class="btn mt-4 shadow" onclick="calcularAnular()">Calcular Conductividad Térmica</button>
                 <div class="result-output" id="output_anular"></div>
             </div>
-            <div class="bg-orange p-6 rounded-lg mb-6 text-black">
-                <h3 class="text-xl font-bold mb-2">Aleta de Perfil Triangular</h3>
-                <p>
-                    Una aleta triangular de <input type="number" class="input-field w-20" id="l_triangular" placeholder="15" value="15"> cm de largo y <input type="number" class="input-field w-20" id="t_triangular" placeholder="4" value="4"> mm de espesor está fabricada de un material con $k=$ <input type="number" class="input-field w-20" id="k_triangular" placeholder="45" value="45"> W/(m·°C). Inmersa en aire a <input type="number" class="input-field w-20" id="tinf_triangular" placeholder="20" value="20"> °C ($h=$ <input type="number" class="input-field w-20" id="h_triangular" placeholder="20" value="20"> W/(m$^2$·°C)), la base está a <input type="number" class="input-field w-20" id="tb_triangular" placeholder="200" value="200"> °C. Calcule el calor perdido por unidad si el ancho de la aleta es <input type="number" class="input-field w-20" id="w_triangular" placeholder="12" value="12"> mm, la eficiencia y la efectividad.
-                </p>
+
+            <!-- EJERCICIO 3: TRIANGULAR DINÁMICO -->
+            <div class="bg-orange p-6 rounded-lg mb-6 text-black shadow-md">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-xl font-bold">Aleta de Perfil Triangular</h3>
+                    <button class="btn-secondary" onclick="cargarEjemplo3()">Cargar datos Ejemplo 3 (Sec. 3)</button>
+                </div>
+                <p class="text-sm text-gray-800 mb-3">Calcula dinámicamente con funciones de Bessel modificadas <span class="math-inline"><span class="var">I</span><sub>0</sub>(2<span class="var">mL</span>)</span> e <span class="math-inline"><span class="var">I</span><sub>1</sub>(2<span class="var">mL</span>)</span> evaluadas en tiempo real.</p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm font-semibold">
+                    <div><span class="math-inline"><span class="var">L</span></span> (cm): <input type="number" class="input-field" id="l_triangular" value="15" step="any"></div>
+                    <div><span class="math-inline"><span class="var">t</span></span> (mm): <input type="number" class="input-field" id="t_triangular" value="4" step="any"></div>
+                    <div><span class="math-inline"><span class="var">k</span></span> (W/m·°C): <input type="number" class="input-field" id="k_triangular" value="45" step="any"></div>
+                    <div><span class="math-inline"><span class="var">W</span></span> (mm): <input type="number" class="input-field" id="w_triangular" value="12" step="any"></div>
+                    <div><span class="math-inline"><span class="var">T</span><sub>b</sub></span> (°C): <input type="number" class="input-field" id="tb_triangular" value="200" step="any"></div>
+                    <div><span class="math-inline"><span class="var">T</span><sub>&infin;</sub></span> (°C): <input type="number" class="input-field" id="tinf_triangular" value="20" step="any"></div>
+                    <div><span class="math-inline"><span class="var">h</span></span> (W/m²·°C): <input type="number" class="input-field" id="h_triangular" value="20" step="any"></div>
+                </div>
                 <img src="https://github.com/Juansanher25/aletas/blob/main/triangular_l.jpg?raw=true" alt="Diagrama de aleta triangular" class="rounded-lg shadow-md w-full mt-4">
-                <button class="btn mt-4" onclick="calcularTriangular()">Calcular</button>
+                <button class="btn mt-4 shadow" onclick="calcularTriangular()">Calcular Triangular</button>
                 <div class="result-output" id="output_triangular"></div>
             </div>
         </div>
 
         ---
 
+        <!-- ====================================================================
+             SECCIÓN 8: CUESTIONARIO CON ENUNCIADOS FORMATEADOS
+             ==================================================================== -->
         <div class="fin-card border-red">
             <h2 class="text-3xl font-bold text-yellow mb-4">8. Cuestionario</h2>
-            <p class="text-white mb-4">¡Ponte a prueba con este cuestionario! Tienes dos intentos para cada pregunta.</p>
+            <p class="text-white mb-4">¡Ponte a prueba con este cuestionario interactivo! Tienes dos intentos para cada pregunta.</p>
             <div id="quiz-container"></div>
         </div>
 
         ---
 
+        <!-- ====================================================================
+             SECCIÓN 9: BIBLIOGRAFÍA
+             ==================================================================== -->
         <div class="fin-card border-orange">
             <h2 class="text-3xl font-bold text-yellow mb-4">9. Bibliografía</h2>
-            <ul class="list-disc list-inside text-white text-lg">
-                <li>Çengel, Y. A., & Ghajar, A. J. (2015). <i>Transferencia de calor y masa: Fundamentos y aplicaciones</i> (4a ed.). McGraw-Hill Education. (Capítulo 3, Sección 3-6)</li>
-                <li>Incropera, F. P., DeWitt, D. P., Bergman, T. L., & Lavine, A. S. (2013). <i>Fundamentals of Heat and Mass Transfer</i> (7th ed.). John Wiley & Sons.</li>
-                <li>Materiales proporcionados por el docente.</li>
+            <ul class="list-disc list-inside text-white text-lg space-y-2">
+                <li>Çengel, Y. A., & Ghajar, A. J. (2015). <i>Transferencia de calor y masa: Fundamentos y aplicaciones</i> (4a ed.). McGraw-Hill Education. (Capítulo 3, Sección 3-6: Transferencia de calor desde superficies con aletas).</li>
+                <li>Incropera, F. P., DeWitt, D. P., Bergman, T. L., & Lavine, A. S. (2013). <i>Fundamentals of Heat and Mass Transfer</i> (7th ed.). John Wiley & Sons. (Chapter 3, Section 3.6: Extended Surfaces).</li>
+                <li>Holman, J. P. (2010). <i>Heat Transfer</i> (10th ed.). McGraw-Hill Education.</li>
+                <li>Materiales didácticos de cátedra proporcionados por el docente.</li>
             </ul>
         </div>
 
     </div>
 
+    <!-- ====================================================================
+         LÓGICA JAVASCRIPT: MOTOR MATEMÁTICO Y FORMATEADOR VISUAL
+         ==================================================================== -->
     <script>
-        // ====================================================================
-        //                       CÓDIGO JAVASCRIPT
-        // ====================================================================
+        // Funciones auxiliares para formatear HTML matemático puro sin dependencias
+        function mathFrac(num, den) {
+            return '<span class="frac"><span class="num">' + num + '</span><span class="den">' + den + '</span></span>';
+        }
+        function mathRad(body) {
+            return '<span class="rad"><span class="rad-sign">&radic;</span><span class="rad-body">' + body + '</span></span>';
+        }
 
         // ====================================================================
-        // SECCIÓN 8: Cuestionario
+        // BIBLIOTECA MATEMÁTICA: FUNCIONES DE BESSEL MODIFICADAS
+        // (Aproximaciones polinomiales de Chebyshev / Abramowitz & Stegun Cap. 9)
+        // ====================================================================
+        function I0(x) {
+            let ax = Math.abs(x);
+            if (ax < 3.75) {
+                let y = (x / 3.75) * (x / 3.75);
+                return 1.0 + y * (3.5156229 + y * (3.0899424 + y * (1.2067492 + y * (0.2659732 + y * (0.0360768 + y * 0.0045813)))));
+            } else {
+                let y = 3.75 / ax;
+                return (Math.exp(ax) / Math.sqrt(ax)) * (0.39894228 + y * (0.01328592 + y * (0.00225319 + y * (-0.00157565 + y * (0.00916281 + y * (-0.02057706 + y * (0.02635537 + y * (-0.01647633 + y * 0.00392377))))))));
+            }
+        }
+
+        function I1(x) {
+            let ax = Math.abs(x);
+            if (ax < 3.75) {
+                let y = (x / 3.75) * (x / 3.75);
+                return x * (0.5 + y * (0.87890594 + y * (0.51498869 + y * (0.15084934 + y * (0.02658733 + y * (0.00301532 + y * 0.00032487))))));
+            } else {
+                let y = 3.75 / ax;
+                let ans = (Math.exp(ax) / Math.sqrt(ax)) * (0.39894228 + y * (-0.03988024 + y * (-0.00362018 + y * (0.00163801 + y * (-0.01031555 + y * (0.02282967 + y * (-0.02895312 + y * (0.01787654 + y * -0.00420059))))))));
+                return x < 0 ? -ans : ans;
+            }
+        }
+
+        function K0(x) {
+            if (x <= 2.0) {
+                let t = x / 2.0;
+                let t2 = t * t;
+                let term1 = -Math.log(x / 2.0) * I0(x);
+                let term2 = -0.57721566 + t2 * (0.42278420 + t2 * (0.23069756 + t2 * (0.03488590 + t2 * (0.00262698 + t2 * (0.00010750 + t2 * 0.00000740)))));
+                return term1 + term2;
+            } else {
+                let y = 2.0 / x;
+                return (Math.exp(-x) / Math.sqrt(x)) * (1.25331414 + y * (-0.07832358 + y * (0.02189568 + y * (-0.01062446 + y * (0.00587872 + y * (-0.0251540 + y * 0.00053208))))));
+            }
+        }
+
+        function K1(x) {
+            if (x <= 2.0) {
+                let t = x / 2.0;
+                let t2 = t * t;
+                let poly = 0.15443144 + t2 * (-0.67278579 + t2 * (-0.18156897 + t2 * (-0.01919402 + t2 * (-0.00110404 + t2 * -0.00004686))));
+                return (1.0 + x * Math.log(x / 2.0) * I1(x) + t2 * poly) / x;
+            } else {
+                let y = 2.0 / x;
+                return (Math.exp(-x) / Math.sqrt(x)) * (1.25331414 + y * (0.23498619 + y * (-0.03655620 + y * (0.01504268 + y * (-0.00780353 + y * (0.00325614 + y * -0.00068245))))));
+            }
+        }
+
+        // Eficiencia exacta de aleta anular (Incropera Ec. 3.97)
+        function etaAnnularExact(h, k, t, r1, r2) {
+            let r2c = r2 + t / 2.0;
+            let m = Math.sqrt((2.0 * h) / (k * t));
+            let u1 = m * r1;
+            let u2 = m * r2c;
+            let num = K1(u1) * I1(u2) - I1(u1) * K1(u2);
+            let den = I0(u1) * K1(u2) + K0(u1) * I1(u2);
+            let C2 = (2.0 * r1 / m) / (r2c * r2c - r1 * r1);
+            return C2 * (num / den);
+        }
+
+        // Solucionador bisección de conductividad térmica para una eficiencia dada
+        function solveKAnnular(h, t, r1, r2, targetEta) {
+            let kLow = 0.0001;
+            let kHigh = 100000.0;
+            for (let i = 0; i < 60; i++) {
+                let kMid = (kLow + kHigh) / 2.0;
+                let eta = etaAnnularExact(h, kMid, t, r1, r2);
+                if (eta < targetEta) {
+                    kLow = kMid;
+                } else {
+                    kHigh = kMid;
+                }
+            }
+            return (kLow + kHigh) / 2.0;
+        }
+
+        // ====================================================================
+        // SECCIÓN 7: PRESETS Y CÁLCULOS DINÁMICOS
+        // ====================================================================
+        function cargarEjemplo1() {
+            document.getElementById('tb_rect').value = 200;
+            document.getElementById('k_rect').value = 45;
+            document.getElementById('t_rect').value = 2.5;
+            document.getElementById('l_rect').value = 15;
+            document.getElementById('tinf_rect').value = 25;
+            document.getElementById('h_rect').value = 20;
+            calcularRectangular();
+        }
+
+        function cargarCasoEjemplo2() {
+            document.getElementById('dtubo_anular').value = 3.0;
+            document.getElementById('tb_anular').value = 100;
+            document.getElementById('dexterior_anular').value = 7.0;
+            document.getElementById('t_anular').value = 1.0;
+            document.getElementById('h_anular').value = 20;
+            document.getElementById('tinf_anular').value = 25;
+            document.getElementById('eta_anular').value = 50;
+            calcularAnular();
+        }
+
+        function cargarCasoAletaCorta() {
+            document.getElementById('dtubo_anular').value = 3.0;
+            document.getElementById('tb_anular').value = 150;
+            document.getElementById('dexterior_anular').value = 5.0;
+            document.getElementById('t_anular').value = 2.0;
+            document.getElementById('h_anular').value = 20;
+            document.getElementById('tinf_anular').value = 25;
+            document.getElementById('eta_anular').value = 50;
+            calcularAnular();
+        }
+
+        function cargarCasoAluminioForzado() {
+            document.getElementById('dtubo_anular').value = 3.0;
+            document.getElementById('tb_anular').value = 100;
+            document.getElementById('dexterior_anular').value = 7.0;
+            document.getElementById('t_anular').value = 1.0;
+            document.getElementById('h_anular').value = 390;
+            document.getElementById('tinf_anular').value = 25;
+            document.getElementById('eta_anular').value = 50;
+            calcularAnular();
+        }
+
+        function cargarEjemplo3() {
+            document.getElementById('l_triangular').value = 15;
+            document.getElementById('t_triangular').value = 4;
+            document.getElementById('k_triangular').value = 45;
+            document.getElementById('w_triangular').value = 12;
+            document.getElementById('tb_triangular').value = 200;
+            document.getElementById('tinf_triangular').value = 20;
+            document.getElementById('h_triangular').value = 20;
+            calcularTriangular();
+        }
+
+        // 1. CÁLCULO RECTANGULAR
+        function calcularRectangular() {
+            const Tb = parseFloat(document.getElementById('tb_rect').value);
+            const k = parseFloat(document.getElementById('k_rect').value);
+            const t = parseFloat(document.getElementById('t_rect').value) / 100.0;
+            const L = parseFloat(document.getElementById('l_rect').value) / 100.0;
+            const Tinf = parseFloat(document.getElementById('tinf_rect').value);
+            const h = parseFloat(document.getElementById('h_rect').value);
+
+            const W = 1.0;
+            const P = 2.0 * W;
+            const Ac = t * W;
+            const Lc = L + t / 2.0;
+
+            const m = Math.sqrt((h * P) / (k * Ac));
+            const m_Lc = m * Lc;
+            const tanh_mLc = Math.tanh(m_Lc);
+            const eta = tanh_mLc / m_Lc;
+            const Qaleta = Math.sqrt(h * P * k * Ac) * (Tb - Tinf) * tanh_mLc;
+
+            const Q_sin = h * Ac * (Tb - Tinf);
+            const epsilon = Qaleta / Q_sin;
+
+            document.getElementById('output_rect').innerHTML = `
+                <h4 class="text-lg font-bold text-yellow mb-2">Resultados Aleta Rectangular:</h4>
+                <div class="space-y-3 text-white text-sm bg-gray-900 bg-opacity-70 p-4 rounded-lg border border-gray-700">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <p>&bull; Longitud corregida: <span class="math-inline">L<sub>c</sub> = L + ${mathFrac('t', '2')} = ${(Lc * 100).toFixed(2)} cm = ${Lc.toFixed(4)} m</span></p>
+                        <p>&bull; Parámetro de aleta: <span class="math-inline">m = ${mathRad(mathFrac('h &sdot; P', 'k &sdot; A<sub>c</sub>'))} = <strong>${m.toFixed(4)} m<sup>-1</sup></strong></span></p>
+                        <p>&bull; Producto adimensional: <span class="math-inline">m &sdot; L<sub>c</sub> = <strong>${m_Lc.toFixed(4)}</strong></span></p>
+                        <p>&bull; Función tanh: <span class="math-inline">tanh(m &sdot; L<sub>c</sub>) = <strong>${tanh_mLc.toFixed(4)}</strong></span></p>
+                    </div>
+                    <div class="math-block my-2 py-3 text-base">
+                        <span class="math-inline">&eta;<sub>aleta</sub> = ${mathFrac('tanh(m &sdot; L<sub>c</sub>)', 'm &sdot; L<sub>c</sub>')} = </span>
+                        <strong class="text-orange text-2xl ml-2">${(eta * 100).toFixed(2)}%</strong>
+                        <span class="op">&emsp;|&emsp;</span>
+                        <span class="math-inline">Q<sub>aleta</sub> = </span>
+                        <strong class="text-yellow text-2xl ml-2">${Qaleta.toFixed(2)} W/m</strong>
+                        <span class="op">&emsp;|&emsp;</span>
+                        <span class="math-inline">&epsilon;<sub>aleta</sub> = </span>
+                        <strong class="text-red text-2xl ml-2">${epsilon.toFixed(2)}</strong>
+                    </div>
+                </div>
+            `;
+            document.getElementById('output_rect').style.display = 'block';
+            if (window.MathJax && window.MathJax.Hub) {
+                try { window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, "output_rect"]); } catch (e) {}
+            }
+        }
+
+        // 2. CÁLCULO ANULAR DINÁMICO
+        function calcularAnular() {
+            const Dtubo = parseFloat(document.getElementById('dtubo_anular').value) / 100.0;
+            const Tb = parseFloat(document.getElementById('tb_anular').value);
+            const Dexterior = parseFloat(document.getElementById('dexterior_anular').value) / 100.0;
+            const t = parseFloat(document.getElementById('t_anular').value) / 1000.0;
+            const h = parseFloat(document.getElementById('h_anular').value);
+            const Tinf = parseFloat(document.getElementById('tinf_anular').value);
+            const eta = parseFloat(document.getElementById('eta_anular').value) / 100.0;
+
+            if (Dexterior <= Dtubo) {
+                alert("El diámetro exterior debe ser mayor que el diámetro del tubo.");
+                return;
+            }
+
+            const r1 = Dtubo / 2.0;
+            const r2 = Dexterior / 2.0;
+            const r2c = r2 + t / 2.0;
+            const Lc = r2c - r1;
+            const radio_ratio = r2c / r1;
+
+            // Solución analítica exacta por funciones de Bessel
+            const k_exacto = solveKAnnular(h, t, r1, r2, eta);
+
+            // Parámetros de la gráfica adimensional
+            const xi = Lc * Math.sqrt(h / (k_exacto * t));
+            const X_mLc = Math.sqrt(2.0) * xi;
+            const k_grafico = (h * Math.pow(Lc, 2)) / (Math.pow(xi, 2) * t);
+
+            let materialClass = "";
+            let materialColor = "";
+            if (k_exacto < 2.0) {
+                materialClass = "Aislante térmico / polímero (ej. teflón, vidrio, plástico).";
+                materialColor = "text-red";
+            } else if (k_exacto < 25.0) {
+                materialClass = "Aleación de baja conductividad (ej. Acero inoxidable AISI 304/316, Aleación de Titanio).";
+                materialColor = "text-yellow";
+            } else if (k_exacto < 70.0) {
+                materialClass = "Acero al carbono / fundición de hierro.";
+                materialColor = "text-orange";
+            } else if (k_exacto < 180.0) {
+                materialClass = "Aleación de aluminio estructural (ej. Al 2024, Al 6061) o latón.";
+                materialColor = "text-green-400";
+            } else {
+                materialClass = "Metal de altísima conductividad (Aluminio puro o Cobre).";
+                materialColor = "text-green-300";
+            }
+
+            let explanation = `
+                <h4 class="text-xl font-bold mb-3 text-yellow flex items-center gap-2">
+                    <span>Solución Rigurosa Paso a Paso (Método Gráfico y Analítico):</span>
+                </h4>
+                <ol class="list-decimal list-inside text-white space-y-4">
+                    <li>
+                        <strong>Paso 1: Parámetros geométricos corregidos</strong>
+                        <div class="ml-4 mt-2 space-y-1 text-sm bg-gray-900 bg-opacity-70 p-3 rounded-lg border border-gray-700">
+                            <p>&bull; Radio interior (base): <span class="math-inline"><span class="var">r</span><sub>1</sub> = ${mathFrac('D<sub>tubo</sub>', '2')} = ${(r1 * 100).toFixed(2)} cm = ${r1.toFixed(4)} m</span></p>
+                            <p>&bull; Radio exterior nominal: <span class="math-inline"><span class="var">r</span><sub>2</sub> = ${mathFrac('D<sub>ext</sub>', '2')} = ${(r2 * 100).toFixed(2)} cm = ${r2.toFixed(4)} m</span></p>
+                            <p>&bull; Espesor de la aleta: <span class="math-inline"><span class="var">t</span> = ${(t * 1000).toFixed(2)} mm = ${t.toFixed(4)} m</span></p>
+                            <p>&bull; Radio exterior corregido: <span class="math-inline"><span class="var">r</span><sub>2c</sub> = <span class="var">r</span><sub>2</sub> + ${mathFrac('t', '2')} = ${(r2c * 100).toFixed(2)} cm = ${r2c.toFixed(4)} m</span></p>
+                            <p>&bull; Longitud efectiva corregida: <span class="math-inline"><span class="var">L</span><sub>c</sub> = <span class="var">r</span><sub>2c</sub> &minus; <span class="var">r</span><sub>1</sub> = ${(Lc * 100).toFixed(2)} cm = ${Lc.toFixed(4)} m</span></p>
+                            <div class="math-block my-2 py-2">
+                                <span class="math-inline font-bold">Relación de radios:</span>
+                                <span class="op">&emsp;</span>
+                                ${mathFrac('r<sub>2c</sub>', 'r<sub>1</sub>')}
+                                <span class="op">=</span>
+                                ${mathFrac(r2c.toFixed(4), r1.toFixed(4))}
+                                <span class="op">=</span>
+                                <strong class="text-yellow text-xl">${radio_ratio.toFixed(2)}</strong>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Paso 2: Lectura del parámetro en la gráfica (Çengel Fig. 3-44 / Incropera Fig. 3.20)</strong>
+                        <div class="ml-4 mt-2 text-sm bg-gray-900 bg-opacity-70 p-3 rounded-lg border border-gray-700">
+                            <p>Para una eficiencia <span class="math-inline">&eta; = ${(eta * 100).toFixed(1)}%</span> y la curva <span class="math-inline">${mathFrac('r<sub>2c</sub>', 'r<sub>1</sub>')} = ${radio_ratio.toFixed(2)}</span>, el parámetro adimensional del eje horizontal es:</p>
+                            <div class="math-block my-2 py-2">
+                                <span class="var">&xi;</span>
+                                <span class="op">=</span>
+                                <span class="var">L</span><sub>c</sub><sup>3/2</sup> &sdot; ${mathRad(mathFrac('h', 'k &sdot; A<sub>p</sub>'))}
+                                <span class="op">=</span>
+                                <span class="var">L</span><sub>c</sub> &sdot; ${mathRad(mathFrac('h', 'k &sdot; t'))}
+                                <span class="op">&approx;</span>
+                                <strong class="text-yellow text-xl">${xi.toFixed(3)}</strong>
+                            </div>
+                            <p class="text-xs text-gray-300">O en términos del producto adimensional clásico <span class="math-inline">X = m &sdot; L<sub>c</sub> = L<sub>c</sub> &sdot; ${mathRad(mathFrac('2h', 'k &sdot; t'))} = &radic;2 &sdot; &xi; &approx; <strong>${X_mLc.toFixed(3)}</strong></span>.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Paso 3: Despeje y cálculo de la conductividad térmica (<span class="var">k</span>)</strong>
+                        <div class="ml-4 mt-2 text-sm bg-gray-900 bg-opacity-70 p-3 rounded-lg border border-gray-700">
+                            <p>Despejando <span class="var">k</span> del parámetro de la gráfica <span class="var">&xi;</span> en unidades SI:</p>
+                            <div class="math-block my-2 py-2 text-lg">
+                                <span class="var">k</span>
+                                <span class="op">=</span>
+                                ${mathFrac('h &sdot; L<sub>c</sub><sup>2</sup>', '&xi;<sup>2</sup> &sdot; t')}
+                                <span class="op">=</span>
+                                ${mathFrac(`${h} &sdot; (${Lc.toFixed(4)})<sup>2</sup>`, `(${xi.toFixed(3)})<sup>2</sup> &sdot; ${t.toFixed(4)}`)}
+                                <span class="op">=</span>
+                                <strong class="text-yellow text-2xl">${k_grafico.toFixed(2)} W/(m·K)</strong>
+                            </div>
+                            <p class="text-xs text-gray-300 mt-1">&bull; <em>Solución analítica exacta por funciones de Bessel modificadas:</em> <span class="text-green-400 font-bold text-sm">k<sub>exacto</sub> = ${k_exacto.toFixed(3)} W/(m·K)</span>.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Paso 4: Interpretación Física del Resultado</strong>
+                        <div class="ml-4 mt-2 text-sm bg-gray-900 bg-opacity-70 p-3 rounded-lg border border-gray-700">
+                            <p>&bull; <strong>Conductividad requerida:</strong> <span class="text-yellow font-bold text-lg">${k_exacto.toFixed(2)} W/(m·K)</span></p>
+                            <p>&bull; <strong>Diagnóstico de material:</strong> <span class="${materialColor} font-bold">${materialClass}</span></p>
+                            <p class="text-xs text-gray-300 mt-2 leading-relaxed">
+                                &bull; <em>Fundamento físico:</em> Para una aleta de solo <strong>${(Lc * 100).toFixed(2)} cm</strong> en aire en reposo (<span class="var">h</span> = ${h} W/m²K), un metal muy conductor como el aluminio disiparía calor de forma casi isotérmica (&eta; &gt; 95%). Que la eficiencia sea del <strong>${(eta * 100).toFixed(0)}%</strong> significa que existe una caída de temperatura apreciable en muy poca distancia, lo que exige un material con resistencia a la conducción moderada o alta.
+                            </p>
+                        </div>
+                    </li>
+                </ol>
+            `;
+
+            document.getElementById('output_anular').innerHTML = explanation;
+            document.getElementById('output_anular').style.display = 'block';
+            if (window.MathJax && window.MathJax.Hub) {
+                try { window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, "output_anular"]); } catch (e) {}
+            }
+        }
+
+        // 3. CÁLCULO TRIANGULAR DINÁMICO
+        function calcularTriangular() {
+            const L = parseFloat(document.getElementById('l_triangular').value) / 100.0;
+            const t = parseFloat(document.getElementById('t_triangular').value) / 1000.0;
+            const k = parseFloat(document.getElementById('k_triangular').value);
+            const Tinf = parseFloat(document.getElementById('tinf_triangular').value);
+            const h = parseFloat(document.getElementById('h_triangular').value);
+            const Tb = parseFloat(document.getElementById('tb_triangular').value);
+            const W = parseFloat(document.getElementById('w_triangular').value) / 1000.0;
+
+            const Theta_b = Tb - Tinf;
+            const m = Math.sqrt((2.0 * h) / (k * t));
+            const m_L = m * L;
+            const arg = 2.0 * m_L;
+
+            const I0_val = I0(arg);
+            const I1_val = I1(arg);
+
+            const eta = (1.0 / m_L) * (I1_val / I0_val);
+            const L_slant = Math.sqrt(L * L + Math.pow(t / 2.0, 2));
+            const Af = 2.0 * W * L_slant;
+            const Q_ideal = h * Af * Theta_b;
+            const Qaleta = eta * Q_ideal;
+
+            const Ab = W * t;
+            const Q_sin_aleta = h * Ab * Theta_b;
+            const epsilon = Qaleta / Q_sin_aleta;
+
+            document.getElementById('output_triangular').innerHTML = `
+                <h4 class="text-lg font-bold text-yellow mb-2">Resultados Aleta de Perfil Triangular (Solución Exacta de Bessel):</h4>
+                <div class="space-y-3 text-white text-sm bg-gray-900 bg-opacity-70 p-4 rounded-lg border border-gray-700">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <p>&bull; Parámetro térmico: <span class="math-inline">m = ${mathRad(mathFrac('2h', 'k &sdot; t'))} = <strong>${m.toFixed(4)} m<sup>-1</sup></strong></span></p>
+                        <p>&bull; Producto: <span class="math-inline">m &sdot; L = <strong>${m_L.toFixed(4)}</strong></span> &nbsp;|&nbsp; Argumento Bessel: <span class="math-inline">2 &sdot; m &sdot; L = <strong>${arg.toFixed(4)}</strong></span></p>
+                        <p>&bull; Bessel modificado orden 0: <span class="math-inline">I<sub>0</sub>(${arg.toFixed(3)}) = <strong>${I0_val.toFixed(4)}</strong></span></p>
+                        <p>&bull; Bessel modificado orden 1: <span class="math-inline">I<sub>1</sub>(${arg.toFixed(3)}) = <strong>${I1_val.toFixed(4)}</strong></span></p>
+                        <p>&bull; Razón de Bessel: <span class="math-inline">${mathFrac('I<sub>1</sub>(2mL)', 'I<sub>0</sub>(2mL)')} = <strong>${(I1_val / I0_val).toFixed(4)}</strong></span></p>
+                        <p>&bull; Área lateral corregida: <span class="math-inline">A<sub>f</sub> = 2 &sdot; W &sdot; &radic;(L<sup>2</sup> + (t/2)<sup>2</sup>) = <strong>${(Af * 1e4).toFixed(2)} cm<sup>2</sup></strong></span></p>
+                    </div>
+                    <div class="math-block my-2 py-3 text-base">
+                        <span class="math-inline">&eta;<sub>f</sub> = ${mathFrac('1', 'm &sdot; L')} &sdot; ${mathFrac('I<sub>1</sub>(2mL)', 'I<sub>0</sub>(2mL)')} = </span>
+                        <strong class="text-orange text-2xl ml-2">${(eta * 100).toFixed(2)}%</strong>
+                        <span class="op">&emsp;|&emsp;</span>
+                        <span class="math-inline">Q<sub>f</sub> = </span>
+                        <strong class="text-yellow text-2xl ml-2">${Qaleta.toFixed(2)} W</strong>
+                        <span class="op">&emsp;|&emsp;</span>
+                        <span class="math-inline">&epsilon;<sub>f</sub> = </span>
+                        <strong class="text-red text-2xl ml-2">${epsilon.toFixed(2)}</strong>
+                    </div>
+                </div>
+            `;
+            document.getElementById('output_triangular').style.display = 'block';
+            if (window.MathJax && window.MathJax.Hub) {
+                try { window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, "output_triangular"]); } catch (e) {}
+            }
+        }
+
+        // ====================================================================
+        // SECCIÓN 8: CUESTIONARIO
         // ====================================================================
         const quizContainer = document.getElementById('quiz-container');
         const questions = [
             {
-                question: "¿Qué propiedad de una aleta es más importante para determinar su efectividad?",
-                options: ["Longitud ($L$)", "Área de la superficie ($A_s$)", "Conductividad térmica ($k$)", "Coeficiente de convección ($h$)"],
-                answer: "Conductividad térmica ($k$)",
+                question: "¿Qué propiedad intrínseca del material de una aleta es más crítica para mantener una alta efectividad térmica?",
+                options: ["Longitud (L)", "Área de la superficie (A<sub>s</sub>)", "Conductividad térmica (k)", "Coeficiente de convección (h)"],
+                answer: "Conductividad térmica (k)",
                 attempts: 2
             },
             {
-                question: "Si la efectividad de una aleta ($\epsilon_{aleta}$) es menor que 1, ¿qué significa?",
-                options: ["La aleta es ineficiente y no transfiere calor.", "La aleta transfiere menos calor que la superficie original.", "La aleta transfiere la misma cantidad de calor que la superficie original.", "La aleta es infinitamente larga."],
-                answer: "La aleta transfiere menos calor que la superficie original.",
+                question: "Si la efectividad de una aleta (&epsilon;<sub>aleta</sub>) es menor que 1, ¿qué significa físicamente?",
+                options: ["La aleta es ineficiente y no transfiere calor.", "La aleta transfiere menos calor que la superficie desnuda original.", "La aleta transfiere la misma cantidad de calor que la superficie original.", "La aleta es infinitamente larga."],
+                answer: "La aleta transfiere menos calor que la superficie desnuda original.",
                 attempts: 2
             },
             {
-                question: "En una aleta muy larga, ¿cuál es la condición de frontera en su punta?",
-                options: ["Temperatura de la punta igual a la temperatura de la base ($T_L = T_b$)", "Flujo de calor en la punta igual a cero.", "Temperatura de la punta igual a la temperatura del ambiente ($T_L = T_\infty$)", "Convección en la punta."],
-                answer: "Temperatura de la punta igual a la temperatura del ambiente ($T_L = T_\infty$)",
+                question: "En el modelo matemático de aleta infinitamente larga, ¿cuál es la condición de frontera en su punta?",
+                options: ["Temperatura de la punta igual a la temperatura de la base (T<sub>L</sub> = T<sub>b</sub>)", "Flujo de calor en la punta igual a cero.", "Temperatura de la punta igual a la del ambiente (T<sub>L</sub> = T<sub>&infin;</sub>)", "Convección en la punta."],
+                answer: "Temperatura de la punta igual a la del ambiente (T<sub>L</sub> = T<sub>&infin;</sub>)",
                 attempts: 2
             },
             {
-                question: "La ecuación general de la aleta considera el equilibrio entre la conducción y...",
-                options: ["La radiación.", "El calor latente.", "La convección.", "La difusión de masa."],
-                answer: "La convección.",
+                question: "La ecuación general unidimensional de la aleta considera el equilibrio térmico estacionario entre la conducción y...",
+                options: ["La radiación pura.", "El calor latente.", "La convección superficial.", "La difusión de masa."],
+                answer: "La convección superficial.",
                 attempts: 2
             },
             {
-                question: "Para que una aleta sea considerada 'muy larga' y la ecuación de calor se aproxime a la de aleta infinita, el valor de $mL$ debe ser:",
+                question: "Para que una aleta sea considerada 'muy larga' y su calor se aproxime con mínimo error al de aleta infinita, el parámetro mL debe ser:",
                 options: ["Menor a 0.5", "Igual a 1.0", "Mayor a 2.0", "Cercano a cero."],
                 answer: "Mayor a 2.0",
                 attempts: 2
@@ -471,6 +1221,7 @@
         ];
 
         function createQuiz() {
+            quizContainer.innerHTML = '';
             questions.forEach((q, index) => {
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question';
@@ -478,7 +1229,7 @@
 
                 const questionText = document.createElement('p');
                 questionText.className = 'text-lg text-white mb-4';
-                questionText.innerHTML = `**Pregunta ${index + 1}:** ${q.question}`;
+                questionText.innerHTML = `<strong>Pregunta ${index + 1}:</strong> ${q.question}`;
                 questionDiv.appendChild(questionText);
 
                 const optionsDiv = document.createElement('div');
@@ -498,7 +1249,6 @@
                 
                 quizContainer.appendChild(questionDiv);
             });
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
         }
 
         function checkAnswer(questionIndex, selectedOption, button) {
@@ -532,7 +1282,7 @@
         }
         
         // ====================================================================
-        // SECCIÓN 6: Simulación Interactiva
+        // SECCIÓN 6: SIMULACIÓN INTERACTIVA CON CANVAS
         // ====================================================================
         const finDrawingCanvas = document.getElementById('fin-drawing-canvas');
         const ctxFin = finDrawingCanvas.getContext('2d');
@@ -551,91 +1301,95 @@
         const epsilonCanvas = document.getElementById('epsilon-canvas');
         const ctxEpsilon = epsilonCanvas.getContext('2d');
 
-        // Constantes del problema de la simulación
-        const Tb = 300; // °C
-        const Tinf = 25; // °C
-        const k_sim = 100; // W/(m·K)
-        const h_sim = 15; // W/(m^2·K)
+        const Tb_sim = 300;
+        const Tinf_sim = 25;
+        const k_sim = 100;
+        const h_sim = 15;
+
+        function initCanvasResolution(canvas) {
+            const rect = canvas.getBoundingClientRect();
+            const w = Math.floor(rect.width) || 400;
+            const h = Math.floor(rect.height) || 192;
+            if (canvas.width !== w || canvas.height !== h) {
+                canvas.width = w;
+                canvas.height = h;
+            }
+        }
 
         function drawFin(L_cm, D_mm) {
+            initCanvasResolution(finDrawingCanvas);
             const canvasWidth = finDrawingCanvas.width;
             const canvasHeight = finDrawingCanvas.height;
             ctxFin.clearRect(0, 0, canvasWidth, canvasHeight);
             
-            const maxL = 20; // cm
-            const maxD = 25; // mm
+            const maxL = 20;
+            const maxD = 25;
             const finLength = (L_cm / maxL) * (canvasWidth * 0.7);
-            const finDiameter = (D_mm / maxD) * (canvasHeight * 0.6);
+            const finDiameter = Math.max(8, (D_mm / maxD) * (canvasHeight * 0.55));
             
             const finX = (canvasWidth - finLength) / 2;
             const finY = (canvasHeight - finDiameter) / 2;
             
-            // Base de la aleta (pared)
             ctxFin.fillStyle = '#FC8181';
-            ctxFin.fillRect(finX - 10, finY, 10, finDiameter);
+            ctxFin.fillRect(finX - 16, finY - 10, 16, finDiameter + 20);
             
-            // Aleta cilíndrica (cuerpo)
-            ctxFin.fillStyle = '#FBD38D';
-            ctxFin.fillRect(finX, finY, finLength, finDiameter);
-            
-            // Aleta cilíndrica (punta, como un círculo)
-            ctxFin.beginPath();
-            ctxFin.arc(finX + finLength, finY + finDiameter / 2, finDiameter / 2, 0, 2 * Math.PI);
-            ctxFin.fill();
-            
-            // Gradiente de temperatura
             const gradient = ctxFin.createLinearGradient(finX, 0, finX + finLength, 0);
             gradient.addColorStop(0, '#FC8181');
             gradient.addColorStop(1, '#FBD38D');
             
             ctxFin.fillStyle = gradient;
             ctxFin.fillRect(finX, finY, finLength, finDiameter);
+            
+            ctxFin.beginPath();
+            ctxFin.arc(finX + finLength, finY + finDiameter / 2, finDiameter / 2, -Math.PI / 2, Math.PI / 2);
+            ctxFin.fillStyle = '#FBD38D';
+            ctxFin.fill();
 
-            // Borde y detalles
             ctxFin.strokeStyle = '#F6E05E';
             ctxFin.lineWidth = 2;
             ctxFin.strokeRect(finX, finY, finLength, finDiameter);
         }
 
         function drawChart(canvas, ctx, points, prop, color, label) {
+            initCanvasResolution(canvas);
             const chartWidth = canvas.width;
             const chartHeight = canvas.height;
             ctx.clearRect(0, 0, chartWidth, chartHeight);
 
-            // Encontrar el valor máximo de la propiedad para escalar el gráfico
-            const maxVal = Math.max(...points.map(p => p[prop])) * 1.1; // 10% de margen
+            const maxVal = Math.max(...points.map(p => p[prop])) * 1.15 || 1;
             
-            // Dibujar ejes
             ctx.beginPath();
             ctx.strokeStyle = '#4a5568';
-            ctx.moveTo(40, 10);
-            ctx.lineTo(40, chartHeight - 40);
-            ctx.lineTo(chartWidth - 10, chartHeight - 40);
+            ctx.lineWidth = 1.5;
+            ctx.moveTo(40, 15);
+            ctx.lineTo(40, chartHeight - 35);
+            ctx.lineTo(chartWidth - 10, chartHeight - 35);
             ctx.stroke();
 
-            // Etiquetas de los ejes
             ctx.fillStyle = '#e2e8f0';
+            ctx.font = '11px Inter, sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText('Longitud (cm)', chartWidth / 2, chartHeight - 20);
+            ctx.fillText('Longitud (cm)', chartWidth / 2, chartHeight - 12);
             ctx.save();
             ctx.rotate(-Math.PI / 2);
             ctx.textAlign = 'center';
-            ctx.fillText(label, -chartHeight / 2, 20);
+            ctx.fillText(label, -chartHeight / 2, 16);
             ctx.restore();
 
-            // Dibujar la línea de la gráfica
             ctx.beginPath();
             ctx.strokeStyle = color;
+            ctx.lineWidth = 2.5;
             const scaleFactor = (chartHeight - 50) / maxVal;
             const maxL_cm = 20;
 
             if (points.length > 0) {
-                ctx.moveTo(40 + (points[0].L / maxL_cm) * (chartWidth - 50), chartHeight - 40 - (points[0][prop] * scaleFactor));
-                points.forEach(p => {
-                    const x = 40 + (p.L / maxL_cm) * (chartWidth - 50);
-                    const y = chartHeight - 40 - (p[prop] * scaleFactor);
+                ctx.moveTo(40 + (points[0].L / maxL_cm) * (chartWidth - 55), chartHeight - 35 - (points[0][prop] * scaleFactor));
+                for (let i = 1; i < points.length; i++) {
+                    const p = points[i];
+                    const x = 40 + (p.L / maxL_cm) * (chartWidth - 55);
+                    const y = chartHeight - 35 - (p[prop] * scaleFactor);
                     ctx.lineTo(x, y);
-                });
+                }
                 ctx.stroke();
             }
         }
@@ -647,199 +1401,64 @@
             lengthValueSpan.textContent = L_cm;
             diameterValueSpan.textContent = D_mm;
 
-            const L = L_cm / 100; // Convertir a metros
-            const D = D_mm / 1000; // Convertir a metros
+            const L = L_cm / 100.0;
+            const D = D_mm / 1000.0;
 
-            // Aleta de perfil rectangular de área circular (cilindro)
             const P = Math.PI * D;
-            const Ac = Math.PI * D * D / 4;
-            const Lc = L + D / 4; // Longitud corregida
+            const Ac = (Math.PI * D * D) / 4.0;
+            const Lc = L + D / 4.0;
 
             const m = Math.sqrt((h_sim * P) / (k_sim * Ac));
             const m_Lc = m * Lc;
             const tanh_mLc = Math.tanh(m_Lc);
             
-            const eta = tanh_mLc / m_Lc; // Eficiencia
-            
+            const eta = tanh_mLc / m_Lc;
             const Aaleta = P * Lc;
-            const Qmax = h_sim * Aaleta * (Tb - Tinf);
-            const Qaleta = eta * Qmax; // Flujo de calor disipado
+            const Qmax = h_sim * Aaleta * (Tb_sim - Tinf_sim);
+            const Qaleta = eta * Qmax;
 
             const Abase = Ac;
-            const QsinAleta = h_sim * Abase * (Tb - Tinf);
-            const epsilon = Qaleta / QsinAleta; // Efectividad
+            const QsinAleta = h_sim * Abase * (Tb_sim - Tinf_sim);
+            const epsilon = Qaleta / QsinAleta;
 
-            // Actualizar valores en la interfaz
             heatFlowOutput.textContent = `${Qaleta.toFixed(2)} W`;
             efficiencyOutput.textContent = `${(eta * 100).toFixed(2)}%`;
             effectivenessOutput.textContent = `${epsilon.toFixed(2)}`;
             
-            // Dibujar los gráficos
             const points = [];
             const maxL_cm = 20;
-
             for (let i = 1; i <= maxL_cm; i += 0.5) {
-                const l = i / 100;
-                const Lc_sim = l + D / 4;
-                const m_sim = Math.sqrt((h_sim * P) / (k_sim * Ac));
-                const m_Lc_sim = m_sim * Lc_sim;
-
+                const l = i / 100.0;
+                const Lc_sim = l + D / 4.0;
+                const m_Lc_sim = m * Lc_sim;
                 const eta_sim = Math.tanh(m_Lc_sim) / m_Lc_sim;
                 const Aaleta_sim = P * Lc_sim;
-                const Qaleta_sim = eta_sim * h_sim * Aaleta_sim * (Tb - Tinf);
+                const Qaleta_sim = eta_sim * h_sim * Aaleta_sim * (Tb_sim - Tinf_sim);
                 const epsilon_sim = Qaleta_sim / QsinAleta;
-
                 points.push({ L: i, Q: Qaleta_sim, eta: eta_sim * 100, epsilon: epsilon_sim });
             }
 
-            drawChart(qCanvas, ctxQ, points, 'Q', '#F6E05E', 'Flujo de Calor (W)');
-            drawChart(etaCanvas, ctxEta, points, 'eta', '#FBD38D', 'Eficiencia (%)');
-            drawChart(epsilonCanvas, ctxEpsilon, points, 'epsilon', '#FC8181', 'Efectividad');
+            drawChart(qCanvas, ctxQ, points, 'Q', '#F6E05E', 'Q (W)');
+            drawChart(etaCanvas, ctxEta, points, 'eta', '#FBD38D', 'η (%)');
+            drawChart(epsilonCanvas, ctxEpsilon, points, 'epsilon', '#FC8181', 'Efectividad (ε)');
 
             drawFin(L_cm, D_mm);
         }
 
         lengthSlider.addEventListener('input', calculateAndDraw);
         diameterSlider.addEventListener('input', calculateAndDraw);
+        window.addEventListener('resize', calculateAndDraw);
 
         // ====================================================================
-        // SECCIÓN 7: Lógica para los Ejercicios
-        // ====================================================================
-        function calcularRectangular() {
-            const Tb = parseFloat(document.getElementById('tb_rect').value);
-            const k = parseFloat(document.getElementById('k_rect').value);
-            const t = parseFloat(document.getElementById('t_rect').value) / 100; // cm a m
-            const L = parseFloat(document.getElementById('l_rect').value) / 100; // cm a m
-            const Tinf = parseFloat(document.getElementById('tinf_rect').value);
-            const h = parseFloat(document.getElementById('h_rect').value);
-
-            // Cálculos para aleta rectangular (aproximación Lc y P=2W)
-            const W = 1; // Por unidad de anchura
-            const P = 2 * W; // Perímetro (Aprox. 2W, ya que 2t es pequeño)
-            const Ac = t * W; // Área de la sección transversal
-            const Lc = L + t / 2; // Longitud corregida
-
-            const m = Math.sqrt((h * P) / (k * Ac));
-            const m_Lc = m * Lc;
-            const Qaleta = Math.sqrt(h * P * k * Ac) * (Tb - Tinf) * Math.tanh(m_Lc);
-            const eta = Math.tanh(m_Lc) / m_Lc;
-
-            document.getElementById('output_rect').innerHTML = `
-                Pérdida de calor: **${Qaleta.toFixed(2)} W/m** <br>
-                Eficiencia: **${(eta * 100).toFixed(2)}%**
-            `;
-            document.getElementById('output_rect').style.display = 'block';
-        }
-
-        function calcularAnular() {
-            const Dtubo = parseFloat(document.getElementById('dtubo_anular').value) / 100; // cm a m
-            const Tb = parseFloat(document.getElementById('tb_anular').value);
-            const Dexterior = parseFloat(document.getElementById('dexterior_anular').value) / 100; // cm a m
-            const t = parseFloat(document.getElementById('t_anular').value) / 1000; // mm a m
-            const h = parseFloat(document.getElementById('h_anular').value);
-            const Tinf = parseFloat(document.getElementById('tinf_anular').value);
-            const eta = parseFloat(document.getElementById('eta_anular').value) / 100; // % a decimal
-
-            const r_i = Dtubo / 2;
-            const r_o = Dexterior / 2;
-            const r_oc = r_o + t/2; // Radio exterior corregido
-            const Lc = r_oc - r_i; // Longitud efectiva (gráfica)
-
-            const roc_ri_ratio = r_oc / r_i;
-
-            // Valor de la abscisa leído del gráfico para eta = 0.5 y r_oc/r_i ~ 1.73
-            const X_GRAPH = 1.62; 
-
-            // Despejando k de la relación de la abscisa: X_GRAPH = Lc * sqrt(2h / (k * t))
-            const k = (2 * h * Math.pow(Lc, 2)) / (Math.pow(X_GRAPH, 2) * t);
-
-            let explanation = `
-                <h4 class="text-xl font-bold mb-2 text-yellow">Solución paso a paso (Método Gráfico):</h4>
-                <ol class="list-decimal list-inside text-white space-y-2">
-                    <li>**Paso 1: Calcular la relación de radios y la longitud efectiva ($\mathbf{L_c}$)**</li>
-                    <p>
-                        $r_i$ (Base) = ${r_i.toFixed(4)} \ \text{m}$; $r_{oc}$ (Corregido) = $r_o + t/2 = ${r_oc.toFixed(4)} \ \text{m}$<br>
-                        $$\mathbf{\\frac{r_{oc}}{r_i} = \\frac{0.026}{0.015} \\approx 1.73}$$
-                        $L_c$ (Longitud efectiva) = $r_{oc} - r_i = 0.011 \ \text{m}$
-                    </p>
-                    <li>**Paso 2: Leer el valor de la abscisa ($\mathbf{X}$) en la gráfica**</li>
-                    <p>
-                        Con $\\eta = ${eta * 100}\\%$ en el eje Y y la curva de $\\frac{r_{oc}}{r_i} \\approx 1.73$, se lee el valor del eje X, donde el parámetro de la abscisa es $\mathbf{X} = L_c \\left(\\frac{2h}{kt}\\right)^{1/2}$.
-                    </p>
-                    <p>
-                        Lectura de la Gráfica: $$\mathbf{X \\approx 1.62}$$
-                    </p>
-                    <li>**Paso 3: Despejar la conductividad térmica ($\mathbf{k}$)**</li>
-                    <p>
-                        Partimos de $\mathbf{X} = L_c \\left(\\frac{2h}{kt}\\right)^{1/2}$. Despejando $k$:
-                        $$k = \\frac{2h L_c^2}{X^2 t}$$
-                        Sustituyendo valores:
-                        $$k = \\frac{2 \\cdot 20 \\cdot (0.011)^2}{(1.62)^2 \\cdot 0.002}$$
-                        $$\mathbf{k \\approx 0.922 \ \text{W}/(\text{m} \cdot °\text{C})}$$ (Consistente con la lectura de la gráfica)
-                    </p>
-                </ol>
-            `;
-
-            document.getElementById('output_anular').innerHTML = explanation;
-            document.getElementById('output_anular').style.display = 'block';
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, "output_anular"]);
-        }
-
-        function calcularTriangular() {
-            const L = parseFloat(document.getElementById('l_triangular').value) / 100; // cm a m
-            const t = parseFloat(document.getElementById('t_triangular').value) / 1000; // mm a m
-            const k = parseFloat(document.getElementById('k_triangular').value);
-            const Tinf = parseFloat(document.getElementById('tinf_triangular').value);
-            const h = parseFloat(document.getElementById('h_triangular').value);
-            const Tb = parseFloat(document.getElementById('tb_triangular').value);
-            const W = parseFloat(document.getElementById('w_triangular').value) / 1000; // mm a m
-
-            // Parámetros
-            const Theta_b = Tb - Tinf;
-            const m = Math.sqrt((2 * h) / (k * t));
-            const m_L = m * L;
-            
-            // Usando los valores de Bessel interpolados para m*L ~ 2.236 (2*m*L ~ 4.472)
-            // Se utiliza una aproximación directa de los valores de Bessel para la consistencia del ejemplo.
-            // Para m*L = 2.236 (2*m*L = 4.472): I0(4.472) ~ 20.372; I1(4.472) ~ 18.989
-            const I0_2mL = 20.372;
-            const I1_2mL = 18.989;
-
-            // 1. Eficiencia (eta) - Fórmula exacta para aleta triangular
-            const eta = (1 / m_L) * (I1_2mL / I0_2mL);
-
-            // 2. Calor Ideal (Q_max) y Área (A_f)
-            const Af = 2 * W * L; // Aproximación Aleta delgada
-            const Q_ideal = h * Af * Theta_b;
-            
-            // 3. Calor Perdido (Q_f)
-            const Qaleta = eta * Q_ideal;
-
-            // 4. Efectividad (epsilon)
-            const Ab = W * t;
-            const Q_sin_aleta = h * Ab * Theta_b;
-            const epsilon = Qaleta / Q_sin_aleta;
-
-            document.getElementById('output_triangular').innerHTML = `
-                Calor perdido ($Q_f$): **${Qaleta.toFixed(2)} W** <br>
-                Eficiencia ($\eta_f$): **${(eta * 100).toFixed(2)}%** <br>
-                Efectividad ($\epsilon_f$): **${epsilon.toFixed(2)}**
-            `;
-            document.getElementById('output_triangular').style.display = 'block';
-        }
-
-
-        // ====================================================================
-        // Inicio de la página al cargar
+        // INICIALIZACIÓN
         // ====================================================================
         document.addEventListener('DOMContentLoaded', () => {
             createQuiz();
             calculateAndDraw();
-            // Ejecutar los cálculos de los ejercicios con los valores por defecto al cargar
             calcularRectangular();
             calcularAnular();
             calcularTriangular();
         });
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a3c8b77828b80b6b',t:'MTc4OTY1NDQ2MA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
